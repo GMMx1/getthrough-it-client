@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import './App.css'
@@ -15,7 +16,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Switch>
-            <Route exact path={HOME} render={() => <span>Home</span>} />
+            <Route exact path={HOME} render={() => <h3>Home GMMx1</h3>} />
             <Route exact path={LOGIN} render={() => <span>Login</span>} />
             <Route exact path={LOGOUT} render={() => <span>Logout</span>} />
             <Route render={() => <span>Catch All</span>} />
@@ -26,4 +27,8 @@ class App extends Component {
   }
 }
 
-export default App
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps)(App)

@@ -15,6 +15,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "yarn build && aws s3 sync build/ s3://getthrough-it",
+    "invalidate:cloudfront": "aws cloudfront create-invalidation --distribution-id E1O8P0EEWFPJNT --paths **"
+  },
+  "devDependencies": {
+    "aws": "^0.0.3-2"
   }
 }

@@ -7,16 +7,23 @@ import './index.css'
 import App from './components/App'
 import registerServiceWorker from './registerServiceWorker'
 
+import authReducer, { ajaxReducer } from './reducers/authentication'
+
 const store = createStore(
   combineReducers({
-    test: () => ({})
+    auth: authReducer,
+    ajax: ajaxReducer
   })
 )
 
-ReactDOM.render((
+window.dispatch = store.dispatch
+
+const renderApp = (store) => (
   <Provider store={store}>
     <App />
   </Provider>
-), document.getElementById('root'))
+)
+
+ReactDOM.render(renderApp(store), document.getElementById('root'))
 
 registerServiceWorker()
