@@ -9,21 +9,20 @@ import registerServiceWorker from './registerServiceWorker'
 
 import authReducer, { ajaxReducer } from './reducers/authentication'
 
-const store = createStore(
+export const store = createStore(
   combineReducers({
     auth: authReducer,
     ajax: ajaxReducer
   })
 )
 
-window.dispatch = store.dispatch
-
-const renderApp = (store) => (
+export const renderApp = () => (
   <Provider store={store}>
     <App />
   </Provider>
 )
 
-ReactDOM.render(renderApp(store), document.getElementById('root'))
+if (process.env.NODE_ENV !== 'test') 
+  ReactDOM.render(renderApp(), document.getElementById('root'))
 
 registerServiceWorker()
