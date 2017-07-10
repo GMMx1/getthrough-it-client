@@ -5,11 +5,43 @@ import PropTypes from 'prop-types'
 import withUserMedia from '../hocs/withUserMedia'
 
 import Video from '../components/Video'
+import Editor from '../components/Editor'
 
 class Lobby extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {}
+
+    this.onOpen = this.onOpen.bind(this)
+    this.onCall = this.onCall.bind(this)
+    this.onConnection = this.onConnection.bind(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.peer) {
+      nextProps.peer.on('open', this.onOpen)
+      nextProps.peer.on('call', this.onCall)
+      nextProps.peer.on('connection', this.onConnection)
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.peer.off('open', this.onOpen)
+    this.props.peer.off('call', this.onCall)
+    this.props.peer.off('connection', this.onConnection)
+  }
+
+  onOpen() {
+    // POST to lobby set peerId1 to stuff
+    
+  }
+
+  onCall() {
+
+  }
+
+  onConnection() {
+
   }
 
   renderLoading() {
@@ -20,7 +52,10 @@ class Lobby extends PureComponent {
 
   renderComplete(stream) {
     return (
-      <Video src={URL.createObjectURL(stream)}/>
+      <div>
+        <Video src={URL.createObjectURL(stream)}/>
+        <Editor />
+      </div>
     )
   }
 
