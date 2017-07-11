@@ -20,7 +20,7 @@ class Lobby extends PureComponent {
     this.setPeerStream = this.setPeerStream.bind(this)
     this.onConnection = this.onConnection.bind(this)
     this.setConnection = this.setConnection.bind(this)
-    
+
     this.onEditorChange = this.onEditorChange.bind(this)
   }
 
@@ -87,7 +87,7 @@ class Lobby extends PureComponent {
   onEditorChange(newValue) {
     this.setState({ editorValue: newValue }, () => {
       console.log('STATE HERE', this.state.connection)
-      this.state.connection && 
+      this.state.connection &&
       this.state.connection.send({ editorValue: newValue })
     })
   }
@@ -95,9 +95,9 @@ class Lobby extends PureComponent {
   renderComplete(myStream, peerStream) {
     return (
       <div>
-        {myStream && <Video src={URL.createObjectURL(myStream)}/>}
-        {peerStream && <Video src={URL.createObjectURL(peerStream)}/>}
-        <Editor 
+        {myStream && <Video src={URL.createObjectURL(myStream)} muted={true}/>}
+        {peerStream && <Video src={URL.createObjectURL(peerStream)} muted={false}/>}
+        <Editor
           value={this.state.editorValue}
           onChange={this.onEditorChange}
         />
@@ -109,8 +109,8 @@ class Lobby extends PureComponent {
     const { peer, stream, error, isUserMediaLoading, peerId } = this.props
     const { peerStream } = this.state
     console.log(peer, stream, error, isUserMediaLoading, peerId)
-    return isUserMediaLoading 
-      ? this.renderLoading() 
+    return isUserMediaLoading
+      ? this.renderLoading()
       : this.renderComplete(stream, peerStream)
   }
 }
