@@ -1,6 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-class Video extends Component {
+class Video extends PureComponent {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     return (
       <video 

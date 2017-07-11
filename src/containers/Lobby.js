@@ -18,8 +18,9 @@ class Lobby extends PureComponent {
     this.onCall = this.onCall.bind(this)
     this.onData = this.onData.bind(this)
     this.setPeerStream = this.setPeerStream.bind(this)
+    this.onConnection = this.onConnection.bind(this)
     this.setConnection = this.setConnection.bind(this)
-
+    
     this.onEditorChange = this.onEditorChange.bind(this)
   }
 
@@ -27,14 +28,14 @@ class Lobby extends PureComponent {
     if (!this.props.peer) {
       nextProps.peer.on('open', this.onOpen)
       nextProps.peer.on('call', this.onCall)
-      // nextProps.peer.on('connection', this.onConnection)
+      nextProps.peer.on('connection', this.onConnection)
     }
   }
 
   componentWillUnmount() {
     this.props.peer.off('open', this.onOpen)
     this.props.peer.off('call', this.onCall)
-    // this.props.peer.off('connection', this.onConnection)
+    this.props.peer.off('connection', this.onConnection)
   }
 
   onOpen(data) {
@@ -45,6 +46,7 @@ class Lobby extends PureComponent {
       const conn = peer.connect(peerId)
       call.on('stream', this.setPeerStream)
       conn.on('open', this.setConnection.bind(this, conn))
+      conn.on('data', this.onData)
       conn.on('error', console.error)
     }
   }
@@ -55,6 +57,12 @@ class Lobby extends PureComponent {
     call.on('stream', this.setPeerStream)
   }
 
+  onConnection(connection) {
+    console.log(`onConnection: ${connection}`)
+    this.setState({ connection })
+    connection.on('data', this.onData)
+  }
+
   setPeerStream(peerStream) {
     console.log(`setPeerStream: ${peerStream}`)
     this.setState({ peerStream })
@@ -62,13 +70,12 @@ class Lobby extends PureComponent {
 
   setConnection(connection) {
     console.log(`setConnection: ${connection}`)
-    this.setState({ connection }, () => {
-      connection.on('data', this.onData)
-    })
+    this.setState({ connection })
   }
 
   onData(data) {
     console.log(`onData: ${data}`)
+    this.setState(data)
   }
 
   renderLoading() {
@@ -79,6 +86,7 @@ class Lobby extends PureComponent {
 
   onEditorChange(newValue) {
     this.setState({ editorValue: newValue }, () => {
+      console.log('STATE HERE', this.state.connection)
       this.state.connection.send({ editorValue: newValue })
     })
   }
