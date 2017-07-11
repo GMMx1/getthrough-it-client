@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
+import Lobby from './Lobby'
+
 import './App.css'
 
 import LobbyPage from './pages/LobbyPage'
