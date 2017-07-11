@@ -49,7 +49,7 @@ class Editor extends Component {
         showPrintMargin={this.state.showPrintMargin}
         showGutter={this.state.showGutter}
         highlightActiveLine={this.state.highlightActiveLine}
-        value={this.props.value || this.state.value}
+        value={this.props.value}
         setOptions={{
           enableBasicAutocompletion: this.state.enableBasicAutocompletion,
           enableLiveAutocompletion: this.state.enableLiveAutocompletion,

@@ -87,6 +87,7 @@ class Lobby extends PureComponent {
   onEditorChange(newValue) {
     this.setState({ editorValue: newValue }, () => {
       console.log('STATE HERE', this.state.connection)
+      this.state.connection && 
       this.state.connection.send({ editorValue: newValue })
     })
   }
