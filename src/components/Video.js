@@ -7,9 +7,10 @@ class Video extends PureComponent {
 
   render() {
     return (
-      <video 
+      <video
         src={this.props.src}
-        autoPlay={this.props.autoplay || true} />
+        autoPlay={this.props.autoplay || true}
+        muted={this.props.muted}/>
     )
   }
 }
