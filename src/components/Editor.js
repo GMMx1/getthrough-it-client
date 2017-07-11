@@ -41,7 +41,7 @@ class Editor extends Component {
         theme={this.state.theme}
         name="editor-1"
         onLoad={this.onLoad}
-        onChange={this.onChange.bind(this)}
+        onChange={this.props.onChange || this.onChange.bind(this)}
         onSelectionChange={this.onSelectionChange}
         fontSize={this.state.fontSize}
         width={this.state.width}
@@ -49,7 +49,7 @@ class Editor extends Component {
         showPrintMargin={this.state.showPrintMargin}
         showGutter={this.state.showGutter}
         highlightActiveLine={this.state.highlightActiveLine}
-        value={this.state.value}
+        value={this.props.value || this.state.value}
         setOptions={{
           enableBasicAutocompletion: this.state.enableBasicAutocompletion,
           enableLiveAutocompletion: this.state.enableLiveAutocompletion,

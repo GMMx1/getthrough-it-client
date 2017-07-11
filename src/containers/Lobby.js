@@ -10,38 +10,65 @@ import Editor from '../components/Editor'
 class Lobby extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      editorValue: '//code here!'
+    }
 
     this.onOpen = this.onOpen.bind(this)
     this.onCall = this.onCall.bind(this)
-    this.onConnection = this.onConnection.bind(this)
+    this.onData = this.onData.bind(this)
+    this.setPeerStream = this.setPeerStream.bind(this)
+    this.setConnection = this.setConnection.bind(this)
+
+    this.onEditorChange = this.onEditorChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.peer) {
       nextProps.peer.on('open', this.onOpen)
       nextProps.peer.on('call', this.onCall)
-      nextProps.peer.on('connection', this.onConnection)
+      // nextProps.peer.on('connection', this.onConnection)
     }
   }
 
   componentWillUnmount() {
     this.props.peer.off('open', this.onOpen)
     this.props.peer.off('call', this.onCall)
-    this.props.peer.off('connection', this.onConnection)
+    // this.props.peer.off('connection', this.onConnection)
   }
 
-  onOpen() {
-    // POST to lobby set peerId1 to stuff
-    
+  onOpen(data) {
+    console.log(`onOpen: ${data}`)
+    const { peerId, peer, stream } = this.props
+    if (this.props.peerId) {
+      const call = peer.call(peerId, stream)
+      const conn = peer.connect(peerId)
+      call.on('stream', this.setPeerStream)
+      conn.on('open', this.setConnection.bind(this, conn))
+      conn.on('error', console.error)
+    }
   }
 
-  onCall() {
-
+  onCall(call) {
+    console.log("GETS HERE")
+    call.answer(this.props.stream)
+    call.on('stream', this.setPeerStream)
   }
 
-  onConnection() {
+  setPeerStream(peerStream) {
+    console.log(`setPeerStream: ${peerStream}`)
+    this.setState({ peerStream })
+  }
 
+  setConnection(connection) {
+    console.log(`setConnection: ${connection}`)
+    this.setState({ connection }, () => {
+      connection.on('data', this.onData)
+    })
+  }
+
+  onData(data) {
+    console.log(`onData: ${data}`)
   }
 
   renderLoading() {
@@ -50,21 +77,32 @@ class Lobby extends PureComponent {
     )
   }
 
-  renderComplete(stream) {
+  onEditorChange(newValue) {
+    this.setState({ editorValue: newValue }, () => {
+      this.state.connection.send({ editorValue: newValue })
+    })
+  }
+
+  renderComplete(myStream, peerStream) {
     return (
       <div>
-        <Video src={URL.createObjectURL(stream)}/>
-        <Editor />
+        {myStream && <Video src={URL.createObjectURL(myStream)}/>}
+        {peerStream && <Video src={URL.createObjectURL(peerStream)}/>}
+        <Editor 
+          value={this.state.editorValue}
+          onChange={this.onEditorChange}
+        />
       </div>
     )
   }
 
   render() {
-    const { peer, stream, error, isUserMediaLoading } = this.props
-    console.log(peer, stream, error, isUserMediaLoading)
+    const { peer, stream, error, isUserMediaLoading, peerId } = this.props
+    const { peerStream } = this.state
+    console.log(peer, stream, error, isUserMediaLoading, peerId)
     return isUserMediaLoading 
       ? this.renderLoading() 
-      : this.renderComplete(stream)
+      : this.renderComplete(stream, peerStream)
   }
 }
 
@@ -73,7 +111,8 @@ Lobby.propTypes = {
   peer: PropTypes.object,
   stream: PropTypes.object,
   error: PropTypes.object,
-  isUserMediaLoading: PropTypes.bool
+  isUserMediaLoading: PropTypes.bool,
+  peerId: PropTypes.string,
 }
 
 export default connect()(withUserMedia(Lobby))

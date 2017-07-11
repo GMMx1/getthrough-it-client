@@ -4,4 +4,4 @@ export const HOME = '/'
 export const LOGIN = '/login'
 export const LOGOUT = '/logout'
 
-export const lobby = (id) => `/lobby/${id || ':id'}` 
+export const lobby = (id) => `/lobby/${id || ':id'}`
