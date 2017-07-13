@@ -25,12 +25,12 @@ class Editor extends Component {
       enableLiveAutocompletion: true,
       fontSize: 14,
       showGutter: true,
-      showPrintMargin: true,
+      showPrintMargin: false,
       highlightActiveLine: true,
       enableSnippets: false,
       showLineNumbers: true,
-      width: '500px',
-      height: '500px'
+      width: '100%',
+      height: '100%'
     };
   }
 
@@ -45,7 +45,7 @@ class Editor extends Component {
         onSelectionChange={this.onSelectionChange}
         fontSize={this.state.fontSize}
         width={this.state.width}
-        height={this.state.heigth}
+        height={this.state.height}
         showPrintMargin={this.state.showPrintMargin}
         showGutter={this.state.showGutter}
         highlightActiveLine={this.state.highlightActiveLine}
