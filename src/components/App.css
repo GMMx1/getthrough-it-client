@@ -37,25 +37,37 @@
   min-width: 220px;
   height: 100%;
   background-color: gray;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   position: relative;
 }
 
 .webcam-section {
+  order: 1;
   float: left;
   width: 100%;
-  flex-grow: 1;
-  /*position: relative;*/
-  z-index: 1;
+  display: flex;
+  /*flex-grow: 1;*/
+  /*display: inline-flex;*/
+  /*position: absolute;*/
+}
+
+.parent-webcam {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .waiting {
   text-align: center;
   text: white;
   font-size: 30px;
+  line-height: 300px;
   background-color: black;
   height: 375px;
-  width: 100%;
+  width: 500px;
+  z-index: 1;
 }
 
 .myStream {
@@ -64,16 +76,16 @@
   width: 30%;
   position: absolute;
   z-index: 2;
-  flex-grow: 1;
 }
 
 .test-suite {
+  order: 2;
   width: 100%;
-  height: 80%;
   background-color: red;
+  flex-grow: 1;
   left: 0px;
   bottom: 0px;
-  position: absolute;
+  /*position: absolute;*/
 }
 
 
