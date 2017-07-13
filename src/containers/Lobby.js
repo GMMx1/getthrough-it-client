@@ -96,13 +96,15 @@ class Lobby extends PureComponent {
     return (
       <div className="lobby-page">
         <div className="left-screen">
-          <section className="webcam-section img-responsive">
-            <div className="myStream">
-              {myStream && <Video src={URL.createObjectURL(myStream)} muted={true}/>}
+          <section className="webcam-section">
+            <div className="parent-webcam">
+              <div className="myStream">
+                {myStream && <Video src={URL.createObjectURL(myStream)} muted={true}/>}
+              </div>
+              {peerStream && <Video src={URL.createObjectURL(peerStream)} muted={false}/> || <div className="waiting img-responsive">waiting for peer</div>}
             </div>
-            {peerStream && <Video src={URL.createObjectURL(peerStream)} muted={false}/> || <div className="waiting img-responsive">waiting for peer<span>.</span><span>.</span><span>.</span></div>}
           </section>
-          <section className="test-suite img-responsive"></section>
+          <section className="test-suite "></section>
         </div>
         {/* <ul className="breadcrumb menu-lobby">
           <li className="breadcrumb-item">
