@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
+import '../../node_modules/spectre.css/docs/dist/spectre.min.css'
+import '../../node_modules/spectre.css/docs/dist/spectre-exp.min.css'
+import '../../node_modules/spectre.css/docs/dist/spectre-icons.min.css'
+
 import './App.css'
 
 import LobbyPage from './pages/LobbyPage'

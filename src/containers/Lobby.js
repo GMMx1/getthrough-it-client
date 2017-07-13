@@ -94,13 +94,37 @@ class Lobby extends PureComponent {
 
   renderComplete(myStream, peerStream) {
     return (
-      <div>
-        {myStream && <Video src={URL.createObjectURL(myStream)} muted={true}/>}
-        {peerStream && <Video src={URL.createObjectURL(peerStream)} muted={false}/>}
-        <Editor
-          value={this.state.editorValue}
-          onChange={this.onEditorChange}
-        />
+      <div className="lobby-page">
+        <div className="left-screen">
+          <section className="webcam-section img-responsive">
+            <div className="myStream">
+              {myStream && <Video src={URL.createObjectURL(myStream)} muted={true}/>}
+            </div>
+            {peerStream && <Video src={URL.createObjectURL(peerStream)} muted={false}/> || <div className="waiting img-responsive">waiting for peer<span>.</span><span>.</span><span>.</span></div>}
+          </section>
+          <section className="test-suite img-responsive"></section>
+        </div>
+        {/* <ul className="breadcrumb menu-lobby">
+          <li className="breadcrumb-item">
+            <a href="#">
+              Home
+            </a>
+           </li>
+           <li className="breadcrumb-item">
+             <a href="#">
+               Profile
+             </a>
+           </li>
+           <li className="breadcrumb-item">
+             Change avatar
+           </li>
+        </ul> */}
+        <section className='editor-section' >
+          <Editor
+            value={this.state.editorValue}
+            onChange={this.onEditorChange}
+          />
+        </section>
       </div>
     )
   }
