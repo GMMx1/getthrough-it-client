@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 
-class Video extends PureComponent {
-  shouldComponentUpdate() {
-    return false;
+class Video extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.streamId !== nextProps.streamId
   }
 
   render() {
