@@ -21,6 +21,8 @@ class Lobby extends PureComponent {
     this.onConnection = this.onConnection.bind(this)
     this.setConnection = this.setConnection.bind(this)
 
+    this.onClose = this.onClose.bind(this)
+
     this.onEditorChange = this.onEditorChange.bind(this)
   }
 
@@ -55,6 +57,7 @@ class Lobby extends PureComponent {
     console.log("GETS HERE")
     call.answer(this.props.stream)
     call.on('stream', this.setPeerStream)
+    call.on('close', this.onClose)
   }
 
   onConnection(connection) {
@@ -71,11 +74,27 @@ class Lobby extends PureComponent {
   setConnection(connection) {
     console.log(`setConnection: ${connection}`)
     this.setState({ connection })
+    connection.on('close', this.onClose)
   }
 
   onData(data) {
     console.log(`onData: ${data}`)
     this.setState(data)
+  }
+
+
+  // not currently used
+  onDisconnect() {
+    console.log('in onDisconnect')
+  }
+
+  onClose() {
+    if (this.props.peer.connections[this.props.peerId]) {
+      delete this.props.peer.connections[this.props.peerId];
+      this.setState({
+        peerStream: undefined
+      })
+    }
   }
 
   renderLoading() {
@@ -91,6 +110,8 @@ class Lobby extends PureComponent {
       this.state.connection.send({ editorValue: newValue })
     })
   }
+
+
 
   renderComplete(myStream, peerStream) {
     return (
