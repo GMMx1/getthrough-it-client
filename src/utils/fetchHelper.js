@@ -1,4 +1,4 @@
-const fetchHelper = () => {
+export const fget = () => {
   return {
     headers: {
       'Accept': 'application/json',
@@ -10,7 +10,7 @@ const fetchHelper = () => {
 
 export const fpost = (body) => {
   return {
-    ...fetchHelper(),
+    ...fget(),
     method: 'POST',
     body: JSON.stringify(body)
   }
@@ -18,7 +18,7 @@ export const fpost = (body) => {
 
 export const fput = (body) => {
   return {
-    ...fetchHelper(),
+    ...fget(),
     method: 'PUT',
     body: JSON.stringify(body)
   }

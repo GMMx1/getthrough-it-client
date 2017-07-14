@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import getDisplayName from '../utils/getDisplayName'
-import { fput } from '../utils/fetchHelper'
+import { fget, fput } from '../utils/fetchHelper'
 
 const integrateLobby = (WrappedComponent) => {
   class IntegrateLobby extends Component {
@@ -30,11 +30,11 @@ const integrateLobby = (WrappedComponent) => {
     async onOpen(peerId) {
       console.log('ON OPEN IntegrateLobby', peerId)
       const lobbyUrl = `http://localhost:8000/v1/lobbies/${this.props.id}`
-      const response = await fetch(lobbyUrl)
+      const response = await fetch(lobbyUrl, fget())
       const lobby = await response.json()
 
       if (!lobby.peerId) {
-        // 
+        //  
         console.log("WITHOUT PEERID")
         const response = await fetch(lobbyUrl, fput({ peerId }))
       } else {
