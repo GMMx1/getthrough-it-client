@@ -5,3 +5,4 @@ export const LOGIN = '/login'
 export const LOGOUT = '/logout'
 
 export const lobby = (id) => `/lobby/${id || ':id'}`
+

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import withUserMedia from '../hocs/withUserMedia'
 import withSandbox from '../hocs/withSandbox'
+import integrateLobby from '../hocs/integrateLobby'
 
 import Video from '../components/Video'
 import Editor from '../components/Editor'
@@ -155,7 +156,7 @@ class Lobby extends PureComponent {
 }
 
 Lobby.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
   peer: PropTypes.object,
   stream: PropTypes.object,
   error: PropTypes.object,
@@ -163,4 +164,4 @@ Lobby.propTypes = {
   peerId: PropTypes.string,
 }
 
-export default connect()(withUserMedia(withSandbox(Lobby)))
+export default connect()(withUserMedia(withSandbox(integrateLobby(Lobby))))

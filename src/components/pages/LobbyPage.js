@@ -8,7 +8,7 @@ const LobbyPage = (props) => {
   return (
     <div>
       <Lobby 
-        id={Number(props.match.params.id)}
+        id={props.match.params.id}
         peerId={query.get("peerId")} 
       />
     </div>

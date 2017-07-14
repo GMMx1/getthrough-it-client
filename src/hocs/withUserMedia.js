@@ -37,15 +37,14 @@ const withUserMedia = (WrappedComponent) => {
         isUserMediaLoading: true,
       }
     }
-    componentDidMount() {
-      Promise.all([getCredentials(), getUserMedia()])
-        .then(([res, stream]) => {
-          const peer = new Peer(peerConfig(res.v.iceServers))
-          this.setState({ stream, peer, isUserMediaLoading: false })
-        })
-        .catch((error) => {
-          this.setState({ error, isUserMediaLoading: false })
-        })
+    async componentDidMount() {
+      try {
+        const [res, stream] = await Promise.all([getCredentials(), getUserMedia()])
+        const peer = new Peer(peerConfig(res.v.iceServers))
+        this.setState({ stream, peer, isUserMediaLoading: false })
+      } catch (error) {
+        this.setState({ error, isUserMediaLoading: false })
+      }
     }
     render() {
       return (
