@@ -86,9 +86,9 @@
   flex-grow: 1;
   left: 0px;
   bottom: 0px;
-  cursor: row-resize;
+  /*cursor: row-resize;*/
   /*cursor: s-resize;*/
-  resize: vertical;
+  /*resize: vertical;*/
   /*resize: vertical;*/
   /*position: absolute;*/
 }

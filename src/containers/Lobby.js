@@ -114,6 +114,11 @@ class Lobby extends PureComponent {
     )
   }
 
+  onChallengeClick() {
+    // write function for if someone clicks on specific challenge
+    
+  }
+
   onEditorChange(newValue) {
     this.setState({ editorValue: newValue }, () => {
       this.state.connection &&
