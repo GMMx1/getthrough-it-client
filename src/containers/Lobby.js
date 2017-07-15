@@ -37,6 +37,12 @@ class Lobby extends PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.peerId && this.props.peerId) {
+      this.onOpen()
+    }
+  }
+
   componentWillUnmount() {
     this.props.peer.off('open', this.onOpen)
     this.props.peer.off('call', this.onCall)
@@ -46,6 +52,7 @@ class Lobby extends PureComponent {
   onOpen(data) {
     console.log(`onOpen: ${data}`)
     const { peerId, peer, stream } = this.props
+    console.log('this.props.peerId in onOpen Lobby.js: ', this.props.peerId)
     if (this.props.peerId) {
       const call = peer.call(peerId, stream)
       const conn = peer.connect(peerId)
@@ -95,7 +102,8 @@ class Lobby extends PureComponent {
     if (this.props.peer.connections[this.props.peerId]) {
       delete this.props.peer.connections[this.props.peerId];
       this.setState({
-        peerStream: undefined
+        peerStream: undefined,
+        connection: undefined
       })
     }
   }
@@ -136,7 +144,7 @@ class Lobby extends PureComponent {
             value={this.state.editorValue}
             onChange={this.onEditorChange}
           />
-          <button 
+          <button
             onClick={this.onRunClick}
           >
             Run
@@ -149,6 +157,7 @@ class Lobby extends PureComponent {
   render() {
     const { peer, stream, error, isUserMediaLoading, peerId } = this.props
     const { peerStream } = this.state
+    console.log('this.props in render: ', this.props)
     return isUserMediaLoading
       ? this.renderLoading()
       : this.renderComplete(stream, peerStream)
