@@ -20,6 +20,19 @@ class Lobby extends PureComponent {
       <span>Loading...</span>
     )
   }
+
+  onChallengeClick() {
+    // write function for if someone clicks on specific challenge
+
+  }
+
+  onEditorChange(newValue) {
+    this.setState({ editorValue: newValue }, () => {
+      this.state.connection &&
+      this.state.connection.send({ editorValue: newValue })
+    })
+  }
+
   onRunClick(e) {
     this.props.sandboxEval(this.props.editorValue)
   }
