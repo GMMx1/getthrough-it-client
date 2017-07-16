@@ -19,11 +19,11 @@ const getUserMedia = () => (
 )
 
 const peerConfig = (iceServers) => ({ 
-  host: 'secure-island-39467.herokuapp.com',
-  port: 443,
-  debug: 3,
-  secure: true,
-  config: { iceServers }
+  host: 'localhost',
+  port: 8000,
+  path: '/peerjs',
+  // secure: true,
+  config: { iceServers },
 })
 
 const withUserMedia = (WrappedComponent) => {
@@ -35,13 +35,18 @@ const withUserMedia = (WrappedComponent) => {
         stream: null,
         error: undefined,
         isUserMediaLoading: true,
+        userId: null
       }
     }
     async componentDidMount() {
       try {
+        const userId = localStorage.getItem('userId') || Date.now()
+        localStorage.setItem('userId', userId)
+        
         const [res, stream] = await Promise.all([getCredentials(), getUserMedia()])
-        const peer = new Peer(peerConfig(res.v.iceServers))
-        this.setState({ stream, peer, isUserMediaLoading: false })
+        const peer = new Peer(`${userId}${this.props.lobbyId}`,peerConfig(res.v.iceServers))
+
+        this.setState({ stream, peer, userId, isUserMediaLoading: false })
       } catch (error) {
         this.setState({ error, isUserMediaLoading: false })
       }
@@ -53,6 +58,7 @@ const withUserMedia = (WrappedComponent) => {
           stream={this.state.stream}
           error={this.state.error}
           isUserMediaLoading={this.state.isUserMediaLoading}
+          userId={this.state.userId}
           {...this.props} 
         />
       )
