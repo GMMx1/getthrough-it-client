@@ -6,8 +6,8 @@ import Lobby from '../../containers/Lobby'
 const LobbyPage = (props) => {
   return (
     <div>
-      <Lobby
-        id={props.match.params.id}
+      <Lobby 
+        lobbyId={props.match.params.id}
       />
     </div>
   )
