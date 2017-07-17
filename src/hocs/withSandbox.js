@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 import getDisplayName from '../utils/getDisplayName'
 
@@ -37,6 +36,7 @@ const withSandbox = (WrappedComponent) => {
             {...this.props} 
           />
           <iframe
+            title="sandbox"
             ref={(frame) => { this.frame = frame }}
             src="http://localhost:3000/sandbox.html"
             sandbox="allow-scripts"

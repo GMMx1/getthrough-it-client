@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import getDisplayName from '../utils/getDisplayName'
-import { fget, fput } from '../utils/fetchHelper'
+import { fget } from '../utils/fetchHelper'
 import {  NULL_ID, SAME_ID, DIFF_ID, testPeerId } from '../utils/testPeer'
 
 const integrateLobby = (WrappedComponent) => {
