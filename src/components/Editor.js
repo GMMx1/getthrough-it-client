@@ -18,7 +18,7 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '\/\/code here!',
+      value: '//code here!',
       theme: 'monokai',
       mode: 'javascript',
       enableBasicAutocompletion: true,

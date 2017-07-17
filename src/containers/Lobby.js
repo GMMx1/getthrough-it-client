@@ -45,7 +45,9 @@ class Lobby extends PureComponent {
               <div className="myStream">
                 {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
               </div>
-              {peerStream && <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> || <div className="waiting img-responsive">waiting for peer</div>}
+              {peerStream 
+                ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> 
+                : <div className="waiting img-responsive">waiting for peer</div>}
             </div>
           </section>
           <section className="test-suite "></section>
@@ -66,7 +68,7 @@ class Lobby extends PureComponent {
   }
 
   render() {
-    const { peer, stream, error, isUserMediaLoading, peerId, peerStream } = this.props
+    const { stream, isUserMediaLoading, peerStream } = this.props
     return isUserMediaLoading
       ? this.renderLoading()
       : this.renderComplete(stream, peerStream)
