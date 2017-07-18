@@ -8,6 +8,7 @@ import integrateLobby from '../hocs/integrateLobby'
 
 import Video from '../components/Video'
 import Editor from '../components/Editor'
+import TestTable from '../components/TestTable'
 
 class Lobby extends PureComponent {
   constructor(props) {
@@ -15,16 +16,11 @@ class Lobby extends PureComponent {
     this.state = {}
     this.onRunClick = this.onRunClick.bind(this)
   }
+
   renderLoading() {
     return (
       <span>Loading...</span>
     )
-  }
-
-
-  onChallengeClick() {
-    // write function for if someone clicks on specific challenge
-    
   }
 
   onEditorChange(newValue) {
@@ -37,7 +33,9 @@ class Lobby extends PureComponent {
   onRunClick(e) {
     this.props.sandboxEval(this.props.editorValue)
   }
-  renderComplete(myStream, peerStream) {
+
+  renderComplete() {
+    const { stream: myStream, peerStream, sandboxResult, tests } = this.props
     return (
       <div className="lobby-page">
         <div className="left-screen">
@@ -46,33 +44,30 @@ class Lobby extends PureComponent {
               <div className="myStream">
                 {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
               </div>
-              {peerStream 
-                ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> 
-                : <div className="waiting img-responsive">waiting for peer</div>}
+              <div className="video-responsive video-responsive-4-3 waiting">
+                {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span>Waiting for Peer.</span>}
+              </div>
             </div>
           </section>
-          <section className="test-suite "></section>
+          <TestTable
+            tests={tests}
+            sandboxResult={sandboxResult || []} />
         </div>
         <section className='editor-section' >
           <Editor
             value={this.props.editorValue}
-            onChange={this.props.onEditorChange}
-          />
-          <button
-            onClick={this.onRunClick}
-          >
-            Run
-          </button>
+            onChange={this.props.onEditorChange} />
+          <button onClick={this.onRunClick}>Run</button>
         </section>
       </div>
     )
   }
 
   render() {
-    const { stream, isUserMediaLoading, peerStream } = this.props
+    const { isUserMediaLoading } = this.props
     return isUserMediaLoading
       ? this.renderLoading()
-      : this.renderComplete(stream, peerStream)
+      : this.renderComplete()
   }
 }
 

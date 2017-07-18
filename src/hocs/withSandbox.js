@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import getDisplayName from '../utils/getDisplayName'
+import expect from '../utils/expect'
 
 const style = {
   display: 'none'
@@ -15,6 +16,7 @@ const withSandbox = (WrappedComponent) => {
     }
 
     componentDidMount() {
+      console.log(this.props)
       window.addEventListener('message', this.sandboxResultListener.bind(this))
     }
 
@@ -24,6 +26,9 @@ const withSandbox = (WrappedComponent) => {
     }
 
     sandboxEval(code) {
+      code = `const expect = ${expect}
+      ${code}
+      ${JSON.stringify(this.props.tests)}.map(pair => expect(${this.props.functionName}(...pair[0]), pair[1]))`
       this.frame.contentWindow.postMessage(code, '*')
     }
 
