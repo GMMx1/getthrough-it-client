@@ -26,9 +26,9 @@ const withSandbox = (WrappedComponent) => {
     }
 
     sandboxEval(code) {
-      code = `const expect = ${expect}
-      ${code}
-      ${JSON.stringify(this.props.tests)}.map(pair => expect(${this.props.functionName}(...pair[0]), pair[1]))`
+      code = `const expect = ${expect};${code}
+      ${JSON.stringify(this.props.tests)}
+      .map(pair => expect(${this.props.functionName}(...pair[0]), pair[1]))`
       this.frame.contentWindow.postMessage(code, '*')
     }
 
@@ -43,7 +43,7 @@ const withSandbox = (WrappedComponent) => {
           <iframe
             title="sandbox"
             ref={(frame) => { this.frame = frame }}
-            src="http://localhost:3000/sandbox.html"
+            src="/sandbox.html"
             sandbox="allow-scripts"
             style={style}
           >

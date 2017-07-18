@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 
 import getDisplayName from '../utils/getDisplayName'
 import { fget, fput } from '../utils/fetchHelper'
-import {  NULL_ID, SAME_ID, DIFF_ID, testPeerId } from '../utils/testPeer'
+import withHost from '../utils/withHost'
+import { NULL_ID, SAME_ID, DIFF_ID, testPeerId } from '../utils/testPeer'
+
+import { lobby as lobbyUrl } from '../routes'
 
 const integrateLobby = (WrappedComponent) => {
   class IntegrateLobby extends Component {
@@ -22,8 +25,7 @@ const integrateLobby = (WrappedComponent) => {
     }
     pageCleanup() {
       if (this.state.sendEditorStateOnUnload) {
-        const lobbyUrl = `http://localhost:8000/v1/lobbies/${this.props.lobbyId}`
-        fetch(lobbyUrl, fput({ editorState: this.state.editorValue }))
+        fetch(withHost(lobbyUrl(this.props.lobbyId)), fput({ editorState: this.state.editorValue }))
         this.setState({ sendEditorStateOnUnload: false })
       }
     }
@@ -47,8 +49,7 @@ const integrateLobby = (WrappedComponent) => {
     }
     async onOpen(fromDisconnect) {
       const { peer, stream } = this.props
-      const lobbyUrl = `http://localhost:8000/v1/lobbies/${this.props.lobbyId}`
-      const response = await fetch(lobbyUrl, fget())
+      const response = await fetch(withHost(lobbyUrl(this.props.lobbyId)), fget())
       const lobby = await response.json()
       const [peerId, myId] = [lobby.peerId, this.props.userId]
 
