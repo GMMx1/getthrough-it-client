@@ -33,17 +33,16 @@
 /* lobby styling */
 .lobby-page {
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  /*height: 100vh;
+  width: 100vw;*/
 }
 
 /*left side of screen: */
 .left-screen {
   float: left;
-  max-width: 480px;
+  max-width: 400px;
   min-width: 220px;
   height: 100%;
-  background-color: gray;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -68,38 +67,33 @@
 }
 
 .waiting {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text: white;
   font-size: 30px;
-  line-height: 300px;
   background-color: black;
-  height: 360px;
-  width: 480px;
-  z-index: 1;
 }
 
 .myStream {
   right: 0px;
   bottom: 0px;
-  width: 30%;
+  width: 33%;
   position: absolute;
   z-index: 2;
 }
 
 .test-suite {
   order: 2;
-  width: 100%;
-  background-color: red;
-  flex-grow: 1;
-  left: 0px;
-  bottom: 0px;
-  /*cursor: row-resize;*/
-  /*cursor: s-resize;*/
-  /*resize: vertical;*/
-  /*resize: vertical;*/
-  /*position: absolute;*/
 }
 
+.test-suite-item {
+  /*background-color: green*/
+}
+
+.test-suite-item > * {
+  margin-left: 100px
+}
 
 /*right side of screen lobby: */
 .editor-section {
