@@ -9,6 +9,8 @@ import 'spectre.css/docs/dist/spectre-icons.min.css'
 import './App.css'
 
 import LobbyPage from './pages/LobbyPage'
+import LandingPage from './pages/LandingPage'
+
 
 import {
   HOME,
@@ -23,7 +25,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Switch>
-            <Route exact path={HOME} render={() => <span>Home</span>} />
+            <Route exact path={HOME} render={() => <LandingPage />} />
             <Route exact path={LOGIN} render={() => <span>Login</span>} />
             <Route exact path={LOGOUT} render={() => <span>Logout</span>} />
             <Route exact path={lobby()} render={() => <LobbyPage />} />
