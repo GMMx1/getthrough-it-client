@@ -61,7 +61,7 @@ class Lobby extends PureComponent {
         </div>
         <section className='editor-section' >
           <Editor
-            value={this.props.editorValue}
+            value={this.props.editorValue || ''}
             onChange={this.props.onEditorChange} />
           <button onClick={this.onRunClick}>Run</button>
         </section>
