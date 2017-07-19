@@ -44,7 +44,7 @@ const withSandbox = (WrappedComponent) => {
           <iframe
             title="sandbox"
             ref={(frame) => { this.frame = frame }}
-            src="http://localhost:3000/sandbox.html"
+            src="/sandbox.html"
             sandbox="allow-scripts"
             style={style}
           >
