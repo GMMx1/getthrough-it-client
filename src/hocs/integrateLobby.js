@@ -16,7 +16,8 @@ const integrateLobby = (WrappedComponent) => {
         connection: null,
         sendEditorStateOnUnload: true,
         functionName: "stringify",
-        tests: [[[1], "1"], [[2], "2"]]
+        currentChallenge: false,
+        tests: [[1, "1"], [2, "2"]]
       }
 
       this.pageCleanup = this.pageCleanup.bind(this)
@@ -74,6 +75,15 @@ const integrateLobby = (WrappedComponent) => {
           break
       }
     }
+
+    onChallengeChange(item) {
+      this.setState({
+        tests: item.input_output,
+        functionName: item.name,
+        currentChallenge: item.id
+      })
+    }
+
     onEditorChange(newValue) {
       this.setState({ editorValue: newValue }, () => {
         this.state.connection &&
@@ -86,6 +96,7 @@ const integrateLobby = (WrappedComponent) => {
           {...this.props}
           {...this.state}
           onEditorChange={this.onEditorChange}
+          onChallengeChange={this.onChallengeChange.bind(this)}
         />
       )
     }

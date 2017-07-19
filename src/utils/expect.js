@@ -1,4 +1,4 @@
-const expect = (actual, expected) => 
+const expect = (actual, expected) =>
   actual === expected
   ? true
   : [actual, expected]

@@ -12,11 +12,11 @@ class TestItem extends PureComponent {
 
     return (
       <tr>
-        <td>{JSON.stringify(...inputs)}</td>
+        <td>{JSON.stringify(inputs)}</td>
         <td>{JSON.stringify(expected)}</td>
         <td>
-          {sandboxResult ? 
-            (sandboxResult === true 
+          {sandboxResult ?
+            (sandboxResult === true
               ? <span className="label label-success"><i className="icon icon-check"></i></span>
               : <span style={spanStyle}>
                   {JSON.stringify(sandboxResult[0])}
@@ -35,7 +35,7 @@ TestItem.propTypes = {
     PropTypes.arrayOf(PropTypes.any),
     PropTypes.bool
   ]),
-  inputs: PropTypes.arrayOf(PropTypes.any),
+  inputs: PropTypes.any,
   expected: PropTypes.any,
   output: PropTypes.any
 }
