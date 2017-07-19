@@ -15,9 +15,19 @@ const withChallenges = (WrappedComponent) => {
       }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+      // const res = await fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fget())
+      // const challenges = await res.json()
+      // this.setState({
+      //   challenges: challenges
+      // })
+      this.getChallenges()
+    }
+
+    async getChallenges() {
       const res = await fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fget())
       const challenges = await res.json()
+      console.log('challenges: ', challenges)
       this.setState({
         challenges: challenges
       })
@@ -50,6 +60,7 @@ const withChallenges = (WrappedComponent) => {
           {...this.state}
           updateChallenge={this.updateChallenge}
           createNewChallenge={this.createNewChallenge}
+          getChallenges={this.getChallenges}
         />
       )
     }

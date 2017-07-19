@@ -35,7 +35,7 @@ TestItem.propTypes = {
     PropTypes.arrayOf(PropTypes.any),
     PropTypes.bool
   ]),
-  inputs: PropTypes.arrayOf(PropTypes.any),
+  inputs: PropTypes.any,
   expected: PropTypes.any,
   output: PropTypes.any
 }

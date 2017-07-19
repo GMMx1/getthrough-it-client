@@ -29,6 +29,8 @@ class Lobby extends PureComponent {
     console.log('item: ', item)
     if (item.complete === null) {
       this.props.onEditorChange(item.initial_editor)
+      // this.props.createNewChallenge()
+      // this.props.createNewChallenge
     } else {
       this.props.onEditorChange(item.editorState)
     }
