@@ -17,7 +17,7 @@ const integrateLobby = (WrappedComponent) => {
         sendEditorStateOnUnload: true,
         functionName: "stringify",
         currentChallenge: false,
-        tests: [[1, "1"], [2, "2"]]
+        tests: []
       }
 
       this.pageCleanup = this.pageCleanup.bind(this)

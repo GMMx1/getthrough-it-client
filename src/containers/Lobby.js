@@ -50,6 +50,30 @@ class Lobby extends PureComponent {
     this.props.sandboxEval(this.props.editorValue)
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sandboxResult !== this.props.sandboxResult) {
+      this.evalMessageStyle = {color: 'red'}
+      this.evalMessage = ''
+      if (Array.isArray(nextProps.sandboxResult)) {
+        if (nextProps.sandboxResult.every((el) => el === true)) {
+          this.evalMessageStyle = {
+            color: 'green',
+            float: 'right',
+            marginRight: '40px'}
+          this.evalMessage = "You passed: " + this.props.tests.length + '/' + this.props.tests.length
+        } else {
+          this.evalMessageStyle = {
+            color: 'red',
+            float: 'right',
+            marginRight: '40px'}
+          this.evalMessage = "You passed: " + nextProps.sandboxResult.reduce((acc, el) => (el === true ? acc + 1 : acc), 0) + '/' + this.props.tests.length
+        }
+      } else {
+        this.evalMessage = nextProps.sandboxResult
+      }
+    }
+  }
+
   renderComplete() {
     const { stream: myStream, peerStream, sandboxResult, tests } = this.props
     return (
@@ -65,9 +89,12 @@ class Lobby extends PureComponent {
               </div>
             </div>
           </section>
+          <div className="test-suite">
           <TestTable
             tests={tests}
             sandboxResult={sandboxResult || []} />
+            <div style={this.evalMessageStyle}>{this.evalMessage}</div>
+          </div>
         </div>
         <section className='editor-section' >
           {this.props.currentChallenge ? <Editor
