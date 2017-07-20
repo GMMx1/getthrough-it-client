@@ -13,11 +13,6 @@ import Editor from '../components/Editor'
 import TestTable from '../components/TestTable'
 import Challenges from '../components/challenges'
 
-let lobbyPagestyle = {
-
-}
-
-
 class Lobby extends PureComponent {
   constructor(props) {
     super(props)
@@ -30,7 +25,6 @@ class Lobby extends PureComponent {
   }
 
   showChallenges() {
-    console.log('clicked')
     this.setState({challengesVisibility: 'visible column col-lg-2 float-right'})
   }
 
