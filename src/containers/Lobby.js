@@ -60,13 +60,13 @@ class Lobby extends PureComponent {
             color: 'green',
             float: 'right',
             marginRight: '40px'}
-          this.evalMessage = "You passed: " + this.props.tests.length + '/' + this.props.tests.length
+          this.evalMessage = "You passed: " + this.props.currentChallenge.input_output.length + '/' + this.props.currentChallenge.input_output.length
         } else {
           this.evalMessageStyle = {
             color: 'red',
             float: 'right',
             marginRight: '40px'}
-          this.evalMessage = "You passed: " + nextProps.sandboxResult.reduce((acc, el) => (el === true ? acc + 1 : acc), 0) + '/' + this.props.tests.length
+          this.evalMessage = "You passed: " + nextProps.sandboxResult.reduce((acc, el) => (el === true ? acc + 1 : acc), 0) + '/' + this.props.currentChallenge.input_output.length
         }
       } else {
         this.evalMessage = nextProps.sandboxResult
@@ -75,7 +75,7 @@ class Lobby extends PureComponent {
   }
 
   renderComplete() {
-    const { stream: myStream, peerStream, sandboxResult, tests } = this.props
+    const { stream: myStream, peerStream, sandboxResult } = this.props
     return (
       <div className="lobby-page">
         <div className="left-screen">
@@ -90,14 +90,20 @@ class Lobby extends PureComponent {
             </div>
           </section>
           <div className="test-suite">
-          <TestTable
-            tests={tests}
-            sandboxResult={sandboxResult || []} />
+          {!!this.props.currentChallenge &&
+            <div>
+              <div style={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center', textDecoration: 'underline'}}>{this.props.currentChallenge.name}:</div>
+              <div style={{fontSize: '20px', fontStyle: 'italic', textAlign: 'center'}}>{this.props.currentChallenge.question}</div>
+              <TestTable
+                tests={this.props.currentChallenge.input_output || []}
+                sandboxResult={sandboxResult || []} />
+            </div> }
             <div style={this.evalMessageStyle}>{this.evalMessage}</div>
+
           </div>
         </div>
         <section className='editor-section' >
-          {this.props.currentChallenge ? <Editor
+          {!!this.props.currentChallenge ? <Editor
             value={this.props.editorValue || ''}
             onChange={this.props.onEditorChange} /> :
           <Challenges
