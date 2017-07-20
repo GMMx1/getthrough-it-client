@@ -9,11 +9,17 @@ const spanStyle = {
 class TestItem extends PureComponent {
   render() {
     const { sandboxResult, inputs, expected, output } = this.props
+    var trStyle = {textAlign: "center"}
+    if (sandboxResult === true) {
+      trStyle = {textAlign: "center", color: "green", fontWeight: "bold"}
+    } else if (sandboxResult) {
+      trStyle = {textAlign: "center", color: "red", fontWeight: "bold"}
+    }
 
     return (
-      <tr>
-        <td>{JSON.stringify(inputs)}</td>
-        <td>{JSON.stringify(expected)}</td>
+      <tr style={trStyle}>
+        <td >{JSON.stringify(inputs)}</td>
+        <td >{JSON.stringify(expected)}</td>
         <td>
           {sandboxResult ?
             (sandboxResult === true
