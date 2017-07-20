@@ -3,11 +3,15 @@ import React, { PureComponent } from 'react'
 import renderTestItems from '../utils/renderTestItems'
 
 class TestTable extends PureComponent {
+  constructor(props) {
+    super(props)
+
+  }
   render() {
     const { tests, sandboxResult } = this.props
 
     return (
-      <table className="container test-suite table">
+      <table className="container table">
         <thead>
           <tr>
             <th>Input</th>
@@ -16,9 +20,11 @@ class TestTable extends PureComponent {
           </tr>
         </thead>
         <tbody>
-          {tests.map(renderTestItems(sandboxResult))}
+          {Array.isArray(sandboxResult) ? tests.map(renderTestItems(sandboxResult)) : tests.map(renderTestItems([]))}
         </tbody>
       </table>
+
+
     )
   }
 }

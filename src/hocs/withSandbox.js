@@ -21,12 +21,12 @@ const withSandbox = (WrappedComponent) => {
     }
 
     sandboxResultListener(e) {
+      console.log('e in sandboxResultListener: ', e)
       if (e.origin === 'null' && e.source === this.frame.contentWindow)
         this.setState({ sandboxResult: e.data })
     }
 
     sandboxEval(code) {
-      console.log('code in sandboxEval: ', code)
       code = `const expect = ${expect}
       ${code}
       ${JSON.stringify(this.props.tests)}.map(pair => expect(${this.props.functionName}(pair[0]), pair[1]))`

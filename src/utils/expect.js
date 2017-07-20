@@ -1,6 +1,6 @@
 const expect = (actual, expected) =>
   actual === expected
   ? true
-  : [actual, expected]
+  : [actual]
 
 export default expect
