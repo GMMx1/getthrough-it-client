@@ -54,8 +54,8 @@ const withChallenges = (WrappedComponent) => {
         <WrappedComponent
           {...this.props}
           {...this.state}
-          updateChallenge={this.updateChallenge}
-          createNewChallenge={this.createNewChallenge}
+          updateChallenge={this.updateChallenge.bind(this)}
+          createNewChallenge={this.createNewChallenge.bind(this)}
           getChallenges={this.getChallenges}
         />
       )
