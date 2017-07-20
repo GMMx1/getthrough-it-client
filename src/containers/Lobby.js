@@ -26,10 +26,10 @@ class Lobby extends PureComponent {
   }
 
   onChallengeClick(item) {
-    console.log('item: ', item)
+    console.log('item in onChallengeClick: ', item)
     if (item.complete === null) {
       this.props.onEditorChange(item.initial_editor)
-      // this.props.createNewChallenge()
+      this.props.createNewChallenge({challengeId: item.id, editorState: item.initial_editor})
       // this.props.createNewChallenge
     } else {
       this.props.onEditorChange(item.editorState)
@@ -61,13 +61,16 @@ class Lobby extends PureComponent {
             float: 'right',
             marginRight: '40px'}
           this.evalMessage = "You passed: " + this.props.currentChallenge.input_output.length + '/' + this.props.currentChallenge.input_output.length
+          this.props.currentChallenge.complete = true
         } else {
           this.evalMessageStyle = {
             color: 'red',
             float: 'right',
             marginRight: '40px'}
           this.evalMessage = "You passed: " + nextProps.sandboxResult.reduce((acc, el) => (el === true ? acc + 1 : acc), 0) + '/' + this.props.currentChallenge.input_output.length
+          this.props.currentChallenge.complete = false
         }
+        this.props.updateChallenge({challengeId: this.props.currentChallenge.id, complete: this.props.currentChallenge.complete = true, editorState: this.props.editorValue})
       } else {
         this.evalMessage = nextProps.sandboxResult
       }
