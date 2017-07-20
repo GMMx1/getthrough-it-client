@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 
 import CreateLobby from '../../components/CreateLobby'
 import Navbar from '../../components/Navbar'
-console.log(__dirname)
 const LandingPage = (props) => {
   return (
     <div id="landingPage">
