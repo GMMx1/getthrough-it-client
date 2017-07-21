@@ -18,7 +18,7 @@ class TestItem extends PureComponent {
 
     return (
       <tr style={trStyle}>
-        <td >{JSON.stringify(inputs)}</td>
+        <td >{JSON.stringify(inputs).slice(1, -1)}</td>
         <td >{JSON.stringify(expected)}</td>
         <td>
           {sandboxResult ?
