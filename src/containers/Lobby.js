@@ -105,12 +105,6 @@ class Lobby extends PureComponent {
                 </div>
               </div>
             </section>
-            <div className="test-suite">
-            <TestTable
-              tests={tests}
-              sandboxResult={sandboxResult || []} />
-              <div style={this.evalMessageStyle}>{this.evalMessage}</div>
-            </div>
 
           </div>
           <section className='editor-section column col-lg-6' onClick={this.hideChallenges}>
@@ -119,7 +113,6 @@ class Lobby extends PureComponent {
               onChange={this.props.onEditorChange} />
           </section>
 
-          </section>
           <div className="test-suite">
           {!!this.props.currentChallenge &&
             <div>
@@ -130,15 +123,14 @@ class Lobby extends PureComponent {
                 sandboxResult={sandboxResult || []} />
             </div> }
             <div style={this.evalMessageStyle}>{this.evalMessage}</div>
-
           </div>
-        </div>
-        <div className={this.state.challengesVisibility}>
+        <section className={this.state.challengesVisibility}>
           <Challenges
             challenges={this.props.challenges}
             onChallengeClick={this.onChallengeClick.bind(this)}
           />
-        </div>
+        </section>
+
         <button className="btn" onClick={this.onRunClick}>Run</button>
         <button className="btn" onClick={this.showChallenges}>Challenges</button>
       </div>
