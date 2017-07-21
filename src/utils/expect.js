@@ -1,5 +1,5 @@
 const expect = (actual, expected) =>
-  actual === expected
+  Math.fround(actual) === Math.fround(expected)
   ? true
   : [actual]
 

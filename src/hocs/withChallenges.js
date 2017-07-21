@@ -9,19 +9,15 @@ const withChallenges = (WrappedComponent) => {
   class WithChallenges extends Component {
     constructor(props) {
       super(props)
-      console.log('this.props in withChallenges: ', this.props)
       this.state = {
         challenges: []
       }
     }
 
     componentDidMount() {
-      // const res = await fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fget())
-      // const challenges = await res.json()
-      // this.setState({
-      //   challenges: challenges
-      // })
       this.getChallenges()
+      console.log('this.props in withChallenges: ', this.props)
+
     }
 
     async getChallenges() {
@@ -58,8 +54,8 @@ const withChallenges = (WrappedComponent) => {
         <WrappedComponent
           {...this.props}
           {...this.state}
-          updateChallenge={this.updateChallenge}
-          createNewChallenge={this.createNewChallenge}
+          updateChallenge={this.updateChallenge.bind(this)}
+          createNewChallenge={this.createNewChallenge.bind(this)}
           getChallenges={this.getChallenges}
         />
       )

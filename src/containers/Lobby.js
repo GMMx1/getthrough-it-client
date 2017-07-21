@@ -39,10 +39,10 @@ class Lobby extends PureComponent {
   }
 
   onChallengeClick(item) {
-    console.log('item: ', item)
+    console.log('item in onChallengeClick: ', item)
     if (item.complete === null) {
       this.props.onEditorChange(item.initial_editor)
-      // this.props.createNewChallenge()
+      this.props.createNewChallenge({challengeId: item.id, editorState: item.initial_editor})
       // this.props.createNewChallenge
     } else {
       this.props.onEditorChange(item.editorState)
@@ -73,14 +73,17 @@ class Lobby extends PureComponent {
             color: 'green',
             float: 'right',
             marginRight: '40px'}
-          this.evalMessage = "You passed: " + this.props.tests.length + '/' + this.props.tests.length
+          this.evalMessage = "You passed: " + this.props.currentChallenge.input_output.length + '/' + this.props.currentChallenge.input_output.length
+          this.props.currentChallenge.complete = true
         } else {
           this.evalMessageStyle = {
             color: 'red',
             float: 'right',
             marginRight: '40px'}
-          this.evalMessage = "You passed: " + nextProps.sandboxResult.reduce((acc, el) => (el === true ? acc + 1 : acc), 0) + '/' + this.props.tests.length
+          this.evalMessage = "You passed: " + nextProps.sandboxResult.reduce((acc, el) => (el === true ? acc + 1 : acc), 0) + '/' + this.props.currentChallenge.input_output.length
+          this.props.currentChallenge.complete = false
         }
+        this.props.updateChallenge({challengeId: this.props.currentChallenge.id, complete: this.props.currentChallenge.complete = true, editorState: this.props.editorValue})
       } else {
         this.evalMessage = nextProps.sandboxResult
       }
@@ -88,7 +91,7 @@ class Lobby extends PureComponent {
   }
 
   renderComplete() {
-    const { stream: myStream, peerStream, sandboxResult, tests } = this.props
+    const { stream: myStream, peerStream, sandboxResult } = this.props
     return (
       <div className="lobby-page columns col-gapless">
           <div className="left-screen" onClick={this.hideChallenges}>
@@ -108,12 +111,28 @@ class Lobby extends PureComponent {
               sandboxResult={sandboxResult || []} />
               <div style={this.evalMessageStyle}>{this.evalMessage}</div>
             </div>
+
           </div>
           <section className='editor-section column col-lg-6' onClick={this.hideChallenges}>
             <Editor
               value={this.props.editorValue || ''}
               onChange={this.props.onEditorChange} />
           </section>
+
+          </section>
+          <div className="test-suite">
+          {!!this.props.currentChallenge &&
+            <div>
+              <div style={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center', textDecoration: 'underline'}}>{this.props.currentChallenge.name}:</div>
+              <div style={{fontSize: '20px', fontStyle: 'italic', textAlign: 'center'}}>{this.props.currentChallenge.question}</div>
+              <TestTable
+                tests={this.props.currentChallenge.input_output || []}
+                sandboxResult={sandboxResult || []} />
+            </div> }
+            <div style={this.evalMessageStyle}>{this.evalMessage}</div>
+
+          </div>
+        </div>
         <div className={this.state.challengesVisibility}>
           <Challenges
             challenges={this.props.challenges}

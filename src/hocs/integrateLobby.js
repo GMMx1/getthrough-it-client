@@ -15,9 +15,7 @@ const integrateLobby = (WrappedComponent) => {
         peerStream: null,
         connection: null,
         sendEditorStateOnUnload: true,
-        functionName: "stringify",
-        currentChallenge: false,
-        tests: []
+        currentChallenge: false
       }
 
       this.pageCleanup = this.pageCleanup.bind(this)
@@ -78,9 +76,7 @@ const integrateLobby = (WrappedComponent) => {
 
     onChallengeChange(item) {
       this.setState({
-        tests: item.input_output,
-        functionName: item.name,
-        currentChallenge: item.id
+        currentChallenge: item
       })
     }
 

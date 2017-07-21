@@ -8,7 +8,7 @@ class TestTable extends PureComponent {
 
   }
   render() {
-    const { tests, sandboxResult } = this.props
+    const { sandboxResult, tests  } = this.props
 
     return (
       <table className="container table">
@@ -20,7 +20,7 @@ class TestTable extends PureComponent {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(sandboxResult) ? tests.map(renderTestItems(sandboxResult)) : tests.map(renderTestItems([]))}
+          {Array.isArray(sandboxResult) ? tests.map(renderTestItems(sandboxResult)) : tests.map(renderTestItems([])) }
         </tbody>
       </table>
 

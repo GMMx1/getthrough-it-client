@@ -29,7 +29,7 @@ const withSandbox = (WrappedComponent) => {
     sandboxEval(code) {
       code = `const expect = ${expect}
       ${code}
-      ${JSON.stringify(this.props.tests)}.map(pair => expect(${this.props.functionName}(pair[0]), pair[1]))`
+      ${JSON.stringify(this.props.currentChallenge.input_output)}.map(pair => expect(${this.props.currentChallenge.name}(pair[0]), pair[1]))`
       this.frame.contentWindow.postMessage(code, '*')
     }
 
