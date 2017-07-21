@@ -8,10 +8,11 @@ import integrateLobby from '../hocs/integrateLobby'
 import withChallenges from '../hocs/withChallenges'
 
 
-import Video from '../components/Video'
+// import Video from '../components/Video'
 import Editor from '../components/Editor'
 import TestTable from '../components/TestTable'
 import Challenges from '../components/challenges'
+import Webcam from '../components/webcam'
 
 class Lobby extends PureComponent {
   constructor(props) {
@@ -32,18 +33,11 @@ class Lobby extends PureComponent {
     this.setState({challengesVisibility: 'hide'})
   }
 
-  renderLoading() {
-    return (
-      <span>Loading...</span>
-    )
-  }
-
   onChallengeClick(item) {
     console.log('item in onChallengeClick: ', item)
     if (item.complete === null) {
       this.props.onEditorChange(item.initial_editor)
       this.props.createNewChallenge({challengeId: item.id, editorState: item.initial_editor})
-      // this.props.createNewChallenge
     } else {
       this.props.onEditorChange(item.editorState)
     }
@@ -90,22 +84,27 @@ class Lobby extends PureComponent {
     }
   }
 
-  renderComplete() {
-    const { stream: myStream, peerStream, sandboxResult } = this.props
+  render() {
+    const { stream: myStream, peerStream, sandboxResult, isUserMediaLoading } = this.props
     return (
       <div className="lobby-page columns col-gapless">
           <div className="left-screen" onClick={this.hideChallenges}>
-            <section className="webcam-section">
-              <div className="parent-webcam">
-                <div className="myStream">
-                  {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
-                </div>
-                <div className="video-responsive video-responsive-4-3 waiting">
-                  {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span>Waiting for Peer.</span>}
-                </div>
-              </div>
-            </section>
-
+            <Webcam
+              isUserMediaLoading={isUserMediaLoading}
+              myStream={myStream}
+              peerStream={peerStream}
+            />
+            <div className="test-suite">
+              {!!this.props.currentChallenge &&
+                <div>
+                  <div style={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center', textDecoration: 'underline'}}>{this.props.currentChallenge.name}:</div>
+                  <div style={{fontSize: '20px', fontStyle: 'italic', textAlign: 'center'}}>{this.props.currentChallenge.question}</div>
+                  <TestTable
+                    tests={this.props.currentChallenge.input_output || []}
+                    sandboxResult={sandboxResult || []} />
+                  </div> }
+                <div style={this.evalMessageStyle}>{this.evalMessage}</div>
+            </div>
           </div>
           <section className='editor-section column col-lg-6' onClick={this.hideChallenges}>
             <Editor
@@ -113,35 +112,16 @@ class Lobby extends PureComponent {
               onChange={this.props.onEditorChange} />
           </section>
 
-          <div className="test-suite">
-          {!!this.props.currentChallenge &&
-            <div>
-              <div style={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center', textDecoration: 'underline'}}>{this.props.currentChallenge.name}:</div>
-              <div style={{fontSize: '20px', fontStyle: 'italic', textAlign: 'center'}}>{this.props.currentChallenge.question}</div>
-              <TestTable
-                tests={this.props.currentChallenge.input_output || []}
-                sandboxResult={sandboxResult || []} />
-            </div> }
-            <div style={this.evalMessageStyle}>{this.evalMessage}</div>
-          </div>
         <section className={this.state.challengesVisibility}>
           <Challenges
             challenges={this.props.challenges}
             onChallengeClick={this.onChallengeClick.bind(this)}
           />
         </section>
-
         <button className="btn" onClick={this.onRunClick}>Run</button>
         <button className="btn" onClick={this.showChallenges}>Challenges</button>
       </div>
     )
-  }
-
-  render() {
-    const { isUserMediaLoading } = this.props
-    return isUserMediaLoading
-      ? this.renderLoading()
-      : this.renderComplete()
   }
 }
 

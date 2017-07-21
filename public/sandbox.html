@@ -8,14 +8,8 @@
       try {
         result = eval(e.data);
       } catch (e) {
-        console.error('e in catch e in sandbox.html: ', e)
-        console.error('e.name in catch e in sandbox.html: ', e.name)
-        console.error('e.lineNumber in catch e in sandbox.html: ', e.lineNumber)
-        console.error('e.columnNumber in catch e in sandbox.html: ', e.columnNumber)
-        console.error('e.stack in catch e in sandbox.html: ', e.stack)
         result = e.name + ': ' + e.message;
       }
-      console.log('e in sandbox.html: ', e)
       mainWindow.postMessage(result, event.origin);
      });
    </script>
