@@ -17,6 +17,19 @@ class Lobby extends PureComponent {
   constructor(props) {
     super(props)
     this.onRunClick = this.onRunClick.bind(this)
+    this.showChallenges = this.showChallenges.bind(this)
+    this.hideChallenges = this.hideChallenges.bind(this)
+    this.state = {
+      challengesVisibility: 'hide'
+    }
+  }
+
+  showChallenges() {
+    this.setState({challengesVisibility: 'visible column col-lg-2 float-right'})
+  }
+
+  hideChallenges() {
+    this.setState({challengesVisibility: 'hide'})
   }
 
   renderLoading() {
@@ -80,17 +93,32 @@ class Lobby extends PureComponent {
   renderComplete() {
     const { stream: myStream, peerStream, sandboxResult } = this.props
     return (
-      <div className="lobby-page">
-        <div className="left-screen">
-          <section className="webcam-section">
-            <div className="parent-webcam">
-              <div className="myStream">
-                {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
+      <div className="lobby-page columns col-gapless">
+          <div className="left-screen" onClick={this.hideChallenges}>
+            <section className="webcam-section">
+              <div className="parent-webcam">
+                <div className="myStream">
+                  {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
+                </div>
+                <div className="video-responsive video-responsive-4-3 waiting">
+                  {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span>Waiting for Peer.</span>}
+                </div>
               </div>
-              <div className="video-responsive video-responsive-4-3 waiting">
-                {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span>Waiting for Peer.</span>}
-              </div>
+            </section>
+            <div className="test-suite">
+            <TestTable
+              tests={tests}
+              sandboxResult={sandboxResult || []} />
+              <div style={this.evalMessageStyle}>{this.evalMessage}</div>
             </div>
+
+          </div>
+          <section className='editor-section column col-lg-6' onClick={this.hideChallenges}>
+            <Editor
+              value={this.props.editorValue || ''}
+              onChange={this.props.onEditorChange} />
+          </section>
+
           </section>
           <div className="test-suite">
           {!!this.props.currentChallenge &&
@@ -105,16 +133,14 @@ class Lobby extends PureComponent {
 
           </div>
         </div>
-        <section className='editor-section' >
-          {!!this.props.currentChallenge ? <Editor
-            value={this.props.editorValue || ''}
-            onChange={this.props.onEditorChange} /> :
+        <div className={this.state.challengesVisibility}>
           <Challenges
             challenges={this.props.challenges}
             onChallengeClick={this.onChallengeClick.bind(this)}
-          /> }
-          <button onClick={this.onRunClick}>Run</button>
-        </section>
+          />
+        </div>
+        <button className="btn" onClick={this.onRunClick}>Run</button>
+        <button className="btn" onClick={this.showChallenges}>Challenges</button>
       </div>
     )
   }

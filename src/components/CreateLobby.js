@@ -16,7 +16,7 @@ class CreateLobby extends Component {
 
   render() {
     return (
-      <button id="create-lobby" className="btn" onClick={(e) => this.makeLobby()}>CREATE NEW LOBBY</button>
+      <button id="create-lobby" className="btn centered" onClick={(e) => this.makeLobby()}>CREATE NEW LOBBY</button>
     )
   }
 }
