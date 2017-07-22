@@ -87,29 +87,29 @@ class Lobby extends PureComponent {
   render() {
     const { stream: myStream, peerStream, sandboxResult, isUserMediaLoading } = this.props
     return (
-      <div className="lobby-page columns col-gapless container">
+      <div className="columns col-gapless container">
           <div className="left-screen column col-lg-2" onClick={this.hideChallenges}>
-            <Webcam
-              isUserMediaLoading={isUserMediaLoading}
-              myStream={myStream}
-              peerStream={peerStream}
-            />
-            <div className="test-suite">
+            <div>
+              <div className="text-bold centered">{this.props.currentChallenge.name}</div>
+              <div>{this.props.currentChallenge.question}</div>
               {!!this.props.currentChallenge &&
-                <div>
-                  <div style={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center', textDecoration: 'underline'}}>{this.props.currentChallenge.name}:</div>
-                  <div style={{fontSize: '20px', fontStyle: 'italic', textAlign: 'center'}}>{this.props.currentChallenge.question}</div>
+                <div className="test-suite">
                   <TestTable
                     tests={this.props.currentChallenge.input_output || []}
                     sandboxResult={sandboxResult || []} />
                   </div> }
                 <div style={this.evalMessageStyle}>{this.evalMessage}</div>
             </div>
+            <Webcam
+              isUserMediaLoading={isUserMediaLoading}
+              myStream={myStream}
+              peerStream={peerStream}
+            />
           </div>
           <section className='editor-section column col-lg-8'>
-            <div id="EditorBar">
-              <a className="btn" onClick={this.onRunClick}>Run</a>
-              <button id="ChallengeButton" className="btn" onClick={this.showChallenges}>Challenges</button>
+            <div id="EditorBar" className="centered">
+              <button id="ChallengeButton" className="btn" onClick={this.showChallenges}>CHALLENGES</button>
+              <button id="RunButton" className="btn" onClick={this.onRunClick}>RUN</button>
             </div>
             <div onClick={this.hideChallenges}>
               <Editor

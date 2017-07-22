@@ -11,7 +11,7 @@ class CreateLobby extends Component {
       method: "POST"
       })
     .then(res => res.json())
-    .then(res => window.open(`http://localhost:3000/lobby/${res.url}`,"_self"))
+    .then(res => window.open(`http://localhost:3000/lobbies/${res.url}`,"_self"))
   }
 
   render() {
