@@ -29,13 +29,15 @@ const withChallenges = (WrappedComponent) => {
       })
     }
 
-    updateChallenge(body) {
+    updateLobbyChallenge(body) {
       fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fput(body))
     }
 
-    createNewChallenge(body) {
+    createNewLobbyChallenge(body) {
       fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fpost(body))
     }
+
+
 
     // actions needed:
       // get all challenges
@@ -54,8 +56,8 @@ const withChallenges = (WrappedComponent) => {
         <WrappedComponent
           {...this.props}
           {...this.state}
-          updateChallenge={this.updateChallenge.bind(this)}
-          createNewChallenge={this.createNewChallenge.bind(this)}
+          updateLobbyChallenge={this.updateLobbyChallenge.bind(this)}
+          createNewLobbyChallenge={this.createNewLobbyChallenge.bind(this)}
           getChallenges={this.getChallenges}
         />
       )
