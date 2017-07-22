@@ -98,8 +98,8 @@ class Lobby extends PureComponent {
                     tests={this.props.currentChallenge.input_output || []}
                     sandboxResult={sandboxResult || []} />
                   </div> }
-                <div style={this.evalMessageStyle}>{this.evalMessage}</div>
             </div>
+            <div id="ErrorMessage" style={this.evalMessageStyle}>{this.evalMessage}</div>
             <Webcam
               isUserMediaLoading={isUserMediaLoading}
               myStream={myStream}

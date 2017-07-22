@@ -6,7 +6,7 @@ import Video from '../components/Video'
 class Webcam extends PureComponent {
   renderLoading() {
     return (
-      <span>Loading...</span>
+      <span className="loading"></span>
     )
   }
 
@@ -21,7 +21,7 @@ class Webcam extends PureComponent {
             {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
           </div>
           <div className="video-responsive video-responsive-4-3 waiting">
-            {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span>Waiting for Peer.</span>}
+            {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span className="loading"></span>}
           </div>
         </div>
       </section>

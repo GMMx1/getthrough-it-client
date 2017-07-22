@@ -88,10 +88,7 @@
 .test-suite {
   order: 2;
   overflow-y: scroll;
-  /*min-height: 240px;*/
-  max-height: 320px;
-  margin-top: 30px;
-  margin-top: 10px;
+  height: 220px;
 }
 
 .test-suite-item {
