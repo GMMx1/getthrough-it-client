@@ -19,13 +19,13 @@ class TestItem extends PureComponent {
     return (
       <tr style={trStyle}>
         <td >{JSON.stringify(inputs).slice(1, -1)}</td>
-        <td >{JSON.stringify(expected)}</td>
+        <td >{typeof expected !== 'string' ? JSON.stringify(expected) : expected}</td>
         <td>
           {sandboxResult ?
             (sandboxResult === true
               ? <span className="label label-success"><i className="icon icon-check"></i></span>
               : <span style={spanStyle}>
-                  {JSON.stringify(sandboxResult[0])}
+                  {typeof sandboxResult[0] !== 'string' ? JSON.stringify(sandboxResult[0]) : sandboxResult[0]}
                   <i className="icon icon-cross" />
                 </span>)
             : `-`
