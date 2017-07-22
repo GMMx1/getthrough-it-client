@@ -7,7 +7,7 @@ import Navbar from '../../components/Navbar'
 
 const LobbyPage = (props) => {
   return (
-    <div>
+    <div className="lobby-page">
       <Navbar />
       <Lobby
         lobbyId={props.match.params.id}

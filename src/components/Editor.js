@@ -17,7 +17,7 @@ class Editor extends PureComponent {
         name="editor-1"
         fontSize={14}
         width="100%"
-        height="100%"
+        height="550px"
         showGutter={true}
         showPrintMargin={false}
         highlightActiveLine={true}
