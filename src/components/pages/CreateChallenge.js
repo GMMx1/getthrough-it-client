@@ -13,7 +13,9 @@ class CreateChallenge extends PureComponent {
       outputType: "String",
       numTests: 0,
       tests: {},
-      functionName: undefined
+      question: undefined,
+      functionName: undefined,
+      hidden: false
     }
     this.initialValInputDict = {
       Array: "[ ]",
@@ -27,6 +29,12 @@ class CreateChallenge extends PureComponent {
   handleFuncChange(event) {
     this.setState({
       functionName: event.target.value.length > 0 ? event.target.value.trim() : undefined
+    })
+  }
+
+  handleQuestionChange(event) {
+    this.setState({
+      question: event.target.value
     })
   }
 
@@ -84,7 +92,7 @@ class CreateChallenge extends PureComponent {
 
   addTest() {
     var newTest = {}
-    newTest[this.state.numTests] = [[], undefined]
+    newTest[this.state.numTests] = [[], undefined, false]
     this.setState({
       numTests: (this.state.numTests + 1),
       tests: {...this.state.tests, ...newTest}
@@ -121,6 +129,16 @@ class CreateChallenge extends PureComponent {
     }, () => {console.log('this.state.tests: ', this.state.tests)})
   }
 
+  toggleHidden(event) {
+    var idx = Number(event.target.id.replace("radio_",""))
+    var test = {}
+    test[idx] = this.state.tests[idx].slice()
+    test[idx][2] = !this.state.tests[idx][2]
+    this.setState({
+      tests: {...this.state.tests, ...test}
+    })
+  }
+
   onSubmit() {
     // check for functionName
     if (!this.state.functionName) {
@@ -129,9 +147,11 @@ class CreateChallenge extends PureComponent {
 
     // add input variable names to array and make sure they are valid
     var inputArray = []
+    var inputTypes = []
     var inputProps = Object.values(this.state.inputs)
     for (var idx = 0 ; idx < inputProps.length; idx++) {
       var arr = inputProps[idx]
+      inputTypes.push(arr[1])
       if (arr[0]) {
         if (inputArray.includes(arr[0])) {
           return alert("Duplicate Varible names.  Var#"+(idx+1))
@@ -149,6 +169,7 @@ class CreateChallenge extends PureComponent {
     }
 
     //make sure all inputs in tests have values and correspond to their data type
+    // make sure all inputs are unique
     var tests = []
     for (var key in this.state.tests) {
       var key_idx = Object.keys(this.state.tests).indexOf(key)
@@ -168,7 +189,7 @@ class CreateChallenge extends PureComponent {
             return alert("Test Input Error (Invalid Boolean): test#:"+(key_idx+1)+" input#"+(i+1))
           }
         } else if (dataType === "String") {
-          if (curInput && curInput.length > 0) {
+          if (curInput) {
             testInputs.push(curInput)
           } else {
             return alert("Test Input Error (Invalid String) (empty input): test#:"+(key_idx+1)+" input#"+(i+1))
@@ -211,12 +232,12 @@ class CreateChallenge extends PureComponent {
       var dataType = this.state.outputType
       if (dataType === "Boolean") {
         if (curOutput === "true" || curOutput === "false") {
-          currentTest.push(Boolean(curOutput))
+          currentTest.push(curOutput)
         } else {
           return alert("Test Output Error (Invalid Boolean): test#:"+(key_idx+1))
         }
       } else if (dataType === "String") {
-        if (curOutput && curOutput.length > 0) {
+        if (curOutput) {
           currentTest.push(curOutput)
         } else {
           return alert("Test Output Error (Invalid String) (empty input): test#:"+(key_idx+1))
@@ -231,7 +252,7 @@ class CreateChallenge extends PureComponent {
         try {
           curOutput = JSON.parse(curOutput)
           if (Array.isArray(curOutput)) {
-            currentTest.push(curOutput)
+            currentTest.push(JSON.stringify(curOutput))
           } else {
             return alert("Test Output Error (Invalid Array): test#:"+(key_idx+1))
           }
@@ -242,7 +263,7 @@ class CreateChallenge extends PureComponent {
         try {
           curOutput = JSON.parse(curOutput)
           if (!Array.isArray(curOutput) && (typeof curOutput === "object")) {
-            currentTest.push(curOutput)
+            currentTest.push(JSON.stringify(curOutput))
           } else {
             return alert("Test Output Error (Invalid Object): test#:"+(key_idx+1))
           }
@@ -250,11 +271,29 @@ class CreateChallenge extends PureComponent {
           return alert("Test Output Error (Invalid Object): test#:"+(key_idx+1))
         }
       }
+      if (this.state.tests[key][2] === true) {
+        console.log('hidden test')
+        currentTest.push(1)
+      } else {
+        console.log('not hidden test')
+        currentTest.push(0)
+      }
       tests.push(currentTest)
     }
 
-    //
+    if (!this.state.question || this.state.question.length < 1) {
+      return alert("Must Have Question")
+    }
 
+    var body = {}
+    body.question = this.state.question
+    body.name = this.state.functionName
+    body.initial_editor = "function "+this.state.functionName+"("+inputArray.join(',') + ') {\n}'
+    body.input_type = inputTypes
+    body.output_type = this.state.outputType
+    body.tests = tests
+
+    this.createNewChallenge(body)
     console.log("tests: ", tests)
 
   }
@@ -275,6 +314,11 @@ class CreateChallenge extends PureComponent {
             Object.values(this.state.inputs).map(arr => arr[0] === undefined || arr[0].length === 0 ? "_" : arr[0]).join(", ")
             : "inputs"}
           </span><span>) {" { }"}</span>
+          <br />
+        </div>
+        <div style={{float: "left", padding: "25px", fontSize: "14px", clear: "both", display: "flex", alignItems: "center"}}>
+          <label> Question:&nbsp;&nbsp;&nbsp;</label>
+            <textarea type="text" name="FunctionName" id="FunctionName" value={this.state.question} onChange={this.handleQuestionChange.bind(this)} placeholder="Question for Challenge"/>
           <br />
         </div>
       <br />
@@ -345,6 +389,7 @@ class CreateChallenge extends PureComponent {
             <tr>
               <th>Input(s)</th>
               <th>Expected Output</th>
+              <th>Hidden Test?</th>
             </tr>
           </thead>
           <tbody>
@@ -383,6 +428,11 @@ class CreateChallenge extends PureComponent {
                       <option value={false}>false</option>
                     </select>
                   }
+                  </label>
+                </td>
+                <td>
+                  <label> Hide
+                    <input type="radio" id={"radio_"+i} name="radio-2-set" checked={this.state.tests[Number(i)][2]} onClick={this.toggleHidden.bind(this)} class="regular-radio" />
                   </label>
                 </td>
                 <td>
