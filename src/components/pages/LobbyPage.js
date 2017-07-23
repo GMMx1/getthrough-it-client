@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import Lobby from '../../containers/Lobby'
 import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 
 
 const LobbyPage = (props) => {
@@ -12,6 +13,7 @@ const LobbyPage = (props) => {
       <Lobby
         lobbyId={props.match.params.id}
       />
+      <Footer />
     </div>
   )
 }

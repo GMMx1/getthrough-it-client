@@ -26,7 +26,7 @@ class Lobby extends PureComponent {
   }
 
   showChallenges() {
-    this.setState({challengesVisibility: 'visible column col-xl-2 centered'})
+    this.setState({challengesVisibility: 'visible column col-lg-2 centered'})
   }
 
   hideChallenges() {
@@ -119,12 +119,12 @@ class Lobby extends PureComponent {
             </div>
           </section>
 
-        <div className={this.state.challengesVisibility}>
+        <section id="ChallengePanel" className={this.state.challengesVisibility}>
           <Challenges
             challenges={this.props.challenges}
             onChallengeClick={this.onChallengeClick.bind(this)}
           />
-        </div>
+        </section>
       </div>
     )
   }
