@@ -11,7 +11,7 @@ class TestTable extends PureComponent {
     const { sandboxResult, tests  } = this.props
 
     return (
-      <table className="container table">
+      <table id="TestTable">
         <thead>
           <tr>
             <th>Input</th>

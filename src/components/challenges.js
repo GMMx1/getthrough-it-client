@@ -10,7 +10,7 @@ class Challenges extends PureComponent {
 
 
   render() {
-    return <table className="container table">
+    return <table className="container">
       <thead>
         <tr>
           <th>Challenges</th>
