@@ -1,3 +1,7 @@
+th, td {
+  padding: 1rem;
+}
+
 .btn {
   color: white;
   background: transparent;
@@ -84,9 +88,11 @@
 }
 
 .test-suite {
+  position: relative;
   order: 1;
+  overflow-x: hidden;
   overflow-y: scroll;
-  height: 220px;
+  height: 35vh;
 }
 
 .test-suite-item {
@@ -176,12 +182,21 @@
 }
 
 #ChallengePanel {
+  min-width: 20%;
   max-width: 20%;
+}
+
+#TestTable {
+  width: 100%;
+  height: auto;
+  border: none;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 /* custom scrollbar */
 ::-webkit-scrollbar {
-    width: 7px;
+    width: 5px;
 }
 
 /* Track */
@@ -194,9 +209,14 @@
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: #272822;
+    background: #272727;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: transparent;
 }
+
+tbody tr:nth-child(odd) {
+   background-color: #272822;
+}
+table {border-collapse: collapse;}
