@@ -34,9 +34,8 @@
 .lobby-page {
   background-color: #2f3129;
   color: white;
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: hidden;
+  height: 100vh;
+  /*overflow: hidden;*/
 }
 
 /*left side of screen: */
@@ -44,22 +43,21 @@
   float: left;
   max-width: 300px;
   min-width: 220px;
-  height: 100vh;
+  height: inherit;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   position: relative;
   margin-left: 20px;
-  margin-bottom: 50px;
 }
 
 .webcam-section {
-  order: 1;
+  order: 0;
   float: left;
   width: 100%;
   display: flex;
   position: absolute;
-  top: 54%;
+  bottom: 2%;
 }
 
 .parent-webcam {
@@ -73,7 +71,7 @@
   justify-content: center;
   align-items: center;
   text: white;
-  font-size: 30px;
+  font-size: 20px;
   background-color: black;
 }
 
@@ -86,7 +84,7 @@
 }
 
 .test-suite {
-  order: 2;
+  order: 1;
   overflow-y: scroll;
   height: 220px;
 }
@@ -102,7 +100,7 @@
 /*right side of screen lobby: */
 .editor-section {
   float: right;
-  flex-grow: 1;
+  flex-grow: 1;;
 }
 
 .menu-lobby {
@@ -117,6 +115,11 @@
   position: fixed;
 }
 
+.footer {
+  background-color: #2f3129;
+  height: 5px;
+  width: 100vw;
+}
 
 #create-lobby {
   margin-top: 125px;
@@ -136,7 +139,7 @@
 #landingPageGif {
   position: absolute;
   width: 100%;
-  height: 93.5%;
+  height: 100vh;
   background: url('./landingPage.gif') no-repeat;
   background-size: cover;
   z-index: -1;
@@ -163,13 +166,17 @@
 }
 
 #ChallengeButton {
-  margin-left: 30vw;
+  margin-left: 30%;
   background-color: #272822;
   border: none;
 }
 
 #EditorBar {
   margin-bottom: 7px;
+}
+
+#ChallengePanel {
+  max-width: 20%;
 }
 
 /* custom scrollbar */

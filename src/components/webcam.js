@@ -21,7 +21,7 @@ class Webcam extends PureComponent {
             {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
           </div>
           <div className="video-responsive video-responsive-4-3 waiting">
-            {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span className="loading"></span>}
+            {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span>waiting for peer</span>}
           </div>
         </div>
       </section>
