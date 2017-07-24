@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import CreateLobby from '../../components/CreateLobby'
 import Navbar from '../../components/Navbar'
+
 const LandingPage = (props) => {
   return (
     <div id="landingPage">
@@ -12,7 +13,8 @@ const LandingPage = (props) => {
         <h2 className=" text-bold">GET_THROUGH_IT</h2>
         <p>The modern online collaborative text editor</p>
       </div>
-      <CreateLobby />
+      <CreateLobby
+        history={props.history} />
     </div>
   )
 }

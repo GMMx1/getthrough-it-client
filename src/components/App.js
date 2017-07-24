@@ -12,7 +12,6 @@ import LobbyPage from './pages/LobbyPage'
 import LandingPage from './pages/LandingPage'
 import CreateChallenge from "./pages/CreateChallenge"
 
-
 import {
   HOME,
   LOGIN,

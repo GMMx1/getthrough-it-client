@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import { createLobby } from '../actions/lobbies'
+import { lobby as lobbyUrl } from '../routes'
 
 class CreateLobby extends Component {
-  makeLobby() {
-    fetch("http://127.0.0.1:8000/v1/lobbies",
-      {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: "POST"
-      })
-    .then(res => res.json())
-    .then(res => window.open(`http://localhost:3000/lobbies/${res.url}`,"_self"))
-  }
-
   render() {
     return (
-      <button id="create-lobby" className="btn centered" onClick={(e) => this.makeLobby()}>CREATE NEW LOBBY</button>
+      <button 
+        id="create-lobby" 
+        className="btn centered" 
+        onClick={this.props.onClick}>
+        CREATE NEW LOBBY
+      </button>
     )
   }
 }
 
-export default CreateLobby
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onClick: () => {
+    dispatch(createLobby())
+      .then((lobby) => {
+        ownProps.history.push(lobbyUrl(lobby.url))
+      })
+  }
+})
+
+export default connect(null, mapDispatchToProps)(CreateLobby)

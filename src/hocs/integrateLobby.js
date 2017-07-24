@@ -46,7 +46,7 @@ const integrateLobby = (WrappedComponent) => {
         })
       }
     }
-    async onOpen(fromDisconnect) {
+    async onOpen() {
       const { peer, stream } = this.props
       const response = await fetch(withHost(lobbyUrl(this.props.lobbyId)), fget())
       const lobby = await response.json()

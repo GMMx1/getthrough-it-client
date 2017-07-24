@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Peer from 'peerjs'
+
 import getDisplayName from '../utils/getDisplayName'
+import { PROTOCOL, HOST, PORT, SECURE } from '../config'
 
 const getCredentials = () => (
   fetch('https://global.xirsys.net/_turn/satellitepunch/', { 
@@ -19,11 +21,11 @@ const getUserMedia = () => (
 )
 
 const peerConfig = (iceServers) => ({ 
-  host: 'localhost',
-  port: 8000,
+  host: `${HOST}`,
+  port: PORT,
+  secure: SECURE,
   path: '/peerjs',
-  // secure: true,
-  config: { iceServers },
+  config: { iceServers }
 })
 
 const withUserMedia = (WrappedComponent) => {
