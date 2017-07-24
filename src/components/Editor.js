@@ -16,7 +16,7 @@ class Editor extends PureComponent {
         theme="monokai"
         name="editor-1"
         fontSize={14}
-        width="100%"
+        width="98%"
         height="83vh"
         showGutter={true}
         showPrintMargin={false}
