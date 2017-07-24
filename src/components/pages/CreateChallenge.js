@@ -15,13 +15,19 @@ class CreateChallenge extends PureComponent {
       tests: {},
       question: undefined,
       functionName: undefined,
-      hidden: false
+      existing: false,
+      challenges: [],
+      currentChallenge: undefined
     }
     this.initialValInputDict = {
       Array: "[ ]",
       Object: "{ }",
       Boolean: "true"
     }
+  }
+
+  componentWillMount() {
+    this.getChallenges()
   }
 
 
@@ -84,6 +90,7 @@ class CreateChallenge extends PureComponent {
         tests[key][0][i] = tests[key][0][i] || this.initialValInputDict[this.state.inputs[i][1]]
       }
       tests[key][1] = tests[key][1] || this.initialValInputDict[this.state.outputType]
+      tests[key][2] = tests[key][2] || false
     }
     this.setState({
       tests: tests
@@ -140,6 +147,13 @@ class CreateChallenge extends PureComponent {
   }
 
   onSubmit() {
+    if (!this.state.existing) {
+      for (var challenge of this.state.challenges) {
+        if (challenge.name.toLowerCase() === this.state.functionName.toLowerCase()) {
+          return alert("Error: Existing Function Name")
+        }
+      }
+    }
     // check for functionName
     if (!this.state.functionName) {
       return alert("Invalid Function Name")
@@ -181,6 +195,9 @@ class CreateChallenge extends PureComponent {
       }
       for (var i = 0; i < inputs.length; i++) {
         var curInput = inputs[i]
+        // if (typeof curInput !== "string") {
+        //   curInput = JSON.stringify(curOutput)
+        // }
         var dataType = this.state.inputs[i][1]
         if (dataType === "Boolean") {
           if (curInput === "true" || curInput === "false") {
@@ -204,7 +221,7 @@ class CreateChallenge extends PureComponent {
           try {
             curInput = JSON.parse(curInput)
             if (Array.isArray(curInput)) {
-              testInputs.push(curInput)
+              testInputs.push(JSON.stringify(curInput))
             } else {
               return alert("Test Input Error (Invalid Array): test#:"+(key_idx+1)+" input#"+(i+1))
             }
@@ -215,7 +232,7 @@ class CreateChallenge extends PureComponent {
           try {
             curInput = JSON.parse(curInput)
             if (!Array.isArray(curInput) && (typeof curInput === "object")) {
-              testInputs.push(curInput)
+              testInputs.push(JSON.stringify(curInput))
             } else {
               return alert("Test Input Error (Invalid Object): test#:"+(key_idx+1)+" input#"+(i+1))
             }
@@ -229,10 +246,15 @@ class CreateChallenge extends PureComponent {
       //testOutputs
 
       var curOutput = this.state.tests[key][1]
+      // if (typeof curOutput !== "string") {
+      //   curOutput = JSON.stringify(curOutput)
+      // }
       var dataType = this.state.outputType
       if (dataType === "Boolean") {
         if (curOutput === "true" || curOutput === "false") {
           currentTest.push(curOutput)
+        } else if (typeof curOutput === "boolean") {
+          currentTest.push(JSON.stringify(curOutput))
         } else {
           return alert("Test Output Error (Invalid Boolean): test#:"+(key_idx+1))
         }
@@ -271,13 +293,17 @@ class CreateChallenge extends PureComponent {
           return alert("Test Output Error (Invalid Object): test#:"+(key_idx+1))
         }
       }
-      if (this.state.tests[key][2] === true) {
-        console.log('hidden test')
-        currentTest.push(1)
-      } else {
-        console.log('not hidden test')
-        currentTest.push(0)
-      }
+      currentTest.push(this.state.tests[key][2])
+      // if (this.state.tests[key][2] === true) {
+      //   console.log('hidden test')
+      //   currentTest.push(1)
+      // } else if (this.state.tests[key][2] === 1 || this.state.tests[key][2] === 0) {
+      //   console.log("in this thing")
+      //   currentTest.push(this.state.tests[key][2])
+      // } else {
+      //   console.log('not hidden test')
+      //   currentTest.push(0)
+      // }
       tests.push(currentTest)
     }
 
@@ -293,20 +319,106 @@ class CreateChallenge extends PureComponent {
     body.output_type = this.state.outputType
     body.tests = tests
 
-    this.createNewChallenge(body)
+    if (this.state.existing) {
+      this.updateChallenge(body)
+      .then((something) => {
+        console.log('something: ', something)
+        alert("Response successfully submitted!!")
+      })
+      .catch((e) => {
+        console.log('some error: ', e)
+      })
+    } else {
+      this.createNewChallenge(body)
+      .then((something) => {
+        console.log('something: ', something)
+        alert("Response successfully submitted!!")
+      })
+      .catch((e) => {
+        console.log('some error: ', e)
+      })
+    }
     console.log("tests: ", tests)
 
   }
 
-  createNewChallenge(body) {
+  async createNewChallenge(body) {
     fetch(`http://localhost:8000/v1/challenges`, fpost(body))
   }
+
+  async updateChallenge(body) {
+    fetch(`http://localhost:8000/v1/challenges`, fput(body))
+  }
+
+  getChallenges() {
+    fetch(`http://localhost:8000/v1/challenges`, fget())
+    .then(res => res.json())
+    .then((challenges) => {
+      console.log('challenges: ', challenges)
+      this.setState({
+        challenges: challenges
+      })
+    })
+  }
+
+  toggleExisting() {
+    this.setState({
+      existing: !this.state.existing
+    })
+  }
+
+  handleChallengeClick(event) {
+    this.setState({
+      currentChallenge: event.target.value
+    }, () => {this.updateChallengeClick(this.state.challenges[this.state.currentChallenge])})
+  }
+
+  updateChallengeClick(challenge) {
+    var input_types = JSON.parse(challenge.input_type)
+    console.log('input_types: ', input_types)
+    var initial = challenge.initial_editor.replace('function ', '').replace(challenge.name, '')
+    var input_names = initial.slice(1, initial.indexOf(')'))
+    input_names = input_names.split(',')
+    console.log('input_names: ', input_names)
+    var inputs = {}
+    for (var i = 0; i< input_names.length; i++) {
+      inputs[i] = [input_names[i], input_types[i]]
+    }
+    var tests = {}
+    for (var i = 0; i < challenge.input_output.length; i++) {
+      tests[i] = challenge.input_output[i]
+    }
+    this.setState({
+      numInputs: input_names.length,
+      inputs: inputs,
+      outputType: challenge.output_type,
+      numTests: challenge.input_output.length,
+      tests: tests,
+      question: challenge.question,
+      functionName: challenge.name
+    }, () => {console.log('this.state: ', this.state)})
+
+  }
+
 
   render() {
     return (
       <div style={{color: "black"}}>
         <button style={{position: "fixed", top: "20px", right: "20px", width: "200px", height: "100px"}} onClick={this.onSubmit.bind(this)}>Submit Challenge</button>
-        <div style={{float: "left", padding: "25px", fontSize: "20px"}}>
+        <div style={{float: "left", padding: "25px"}}>
+          <label>Edit Existing Challenge?
+            <input type="radio" checked={this.state.existing} onClick={this.toggleExisting.bind(this)} className="regular-radio" />
+          </label>
+          {this.state.existing &&
+          <select name="chooseChallenge" value={this.state.currentChallenge} onChange={this.handleChallengeClick.bind(this)}>
+            <option value={undefined}>-</option>
+            {this.state.challenges.map((challenge, i) =>
+              <option key={i} value={i}>{challenge.name}</option>
+            )}
+          </select>
+          }
+        </div>
+        <div style={{float: "left", padding: "25px", fontSize: "20px", clear: "both"}}>
           <span> function </span>
           <input type="text" name="FunctionName" id="FunctionName" value={this.state.functionName} onChange={this.handleFuncChange.bind(this)} placeholder="name of function"/>
           <span>   (</span><span style={{fontStyle: "italic", color: "gray", fontSize: "16px"}}>
@@ -363,11 +475,11 @@ class CreateChallenge extends PureComponent {
                 <td>
                   <span> {i+1}.  </span>
                   <label>Input Name:  </label>
-                  <input type="text" name="Input" id={"inputName_"+i} onChange={this.handleInputNameChange.bind(this)} placeholder="Input Name"/>
+                  <input type="text" name="Input" id={"inputName_"+i} value={this.state.inputs[i][0]} onChange={this.handleInputNameChange.bind(this)} placeholder="Input Name"/>
                 </td>
                 <td>
                   <label>Data Type:
-                    <select name="dataType" id={"inputType_"+i} onChange={this.handleChangeDataType.bind(this)}>
+                    <select name="dataType" id={"inputType_"+i} value={this.state.inputs[i][1]} onChange={this.handleChangeDataType.bind(this)}>
                       <option value={"String"}>String</option>
                       <option value={"Number"}>Number</option>
                       <option value={"Boolean"}>Boolean</option>
@@ -432,7 +544,7 @@ class CreateChallenge extends PureComponent {
                 </td>
                 <td>
                   <label> Hide
-                    <input type="radio" id={"radio_"+i} name="radio-2-set" checked={this.state.tests[Number(i)][2]} onClick={this.toggleHidden.bind(this)} class="regular-radio" />
+                    <input type="radio" id={"radio_"+i} checked={this.state.tests[Number(i)][2]} onClick={this.toggleHidden.bind(this)} className="regular-radio" />
                   </label>
                 </td>
                 <td>

@@ -16,7 +16,7 @@ class Challenges extends PureComponent {
           <th>Challenges</th>
         </tr>
       </thead>
-      <tbody className="text-centered">
+      <tbody className="text-centered lobby-table">
         {this.props.challenges.map((item, idx) => (
           <tr key={idx} onClick={ () => { this.props.onChallengeClick(item) } }>
             <td>{item.name}</td>

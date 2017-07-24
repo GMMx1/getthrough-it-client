@@ -216,7 +216,9 @@ th, td {
 	background: transparent;
 }
 
-tbody tr:nth-child(odd) {
+tbody.lobby-table tr:nth-child(odd) {
    background-color: #272822;
 }
+
+
 table {border-collapse: collapse;}
