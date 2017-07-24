@@ -187,6 +187,7 @@ th, td {
   max-width: 20%;
   padding: 10px 10px 10px 10px;
   text-align: center;
+  overflow-y: scroll;
 }
 
 #ChallengePanel tr:hover {
