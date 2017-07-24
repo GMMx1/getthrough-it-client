@@ -6,6 +6,8 @@ import 'spectre.css/docs/dist/spectre.min.css'
 import 'spectre.css/docs/dist/spectre-exp.min.css'
 import 'spectre.css/docs/dist/spectre-icons.min.css'
 
+import 'animate.css/animate.min.css'
+
 import './App.css'
 
 import LobbyPage from './pages/LobbyPage'
