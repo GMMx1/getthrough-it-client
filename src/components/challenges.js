@@ -12,9 +12,7 @@ class Challenges extends PureComponent {
   render() {
     return <table className="container">
       <thead>
-        <tr>
-          <th>Challenges</th>
-        </tr>
+        <th>Challenges</th>
       </thead>
       <tbody className="text-centered lobby-table">
         {this.props.challenges.map((item, idx) => (
