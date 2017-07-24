@@ -10,18 +10,17 @@ class Challenges extends PureComponent {
 
 
   render() {
-    return <table className="container">
-      <thead>
-        <th>Challenges</th>
-      </thead>
-      <tbody className="text-centered lobby-table">
-        {this.props.challenges.map((item, idx) => (
-          <tr key={idx} onClick={ () => { this.props.onChallengeClick(item) } }>
-            <td>{item.name}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    return (
+      <table className="container">
+        <tbody className="text-centered lobby-table">
+          {this.props.challenges.map((item, idx) => (
+            <tr key={idx} onClick={ () => { this.props.onChallengeClick(item) } }>
+              <td>{item.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
   }
 }
 

@@ -26,7 +26,7 @@ class Lobby extends PureComponent {
   }
 
   showChallenges() {
-    this.setState({challengesVisibility: 'visible column col-lg-2 centered'})
+    this.setState({challengesVisibility: 'animated slideInRight visible'})
   }
 
   hideChallenges() {
