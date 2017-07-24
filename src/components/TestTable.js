@@ -19,7 +19,7 @@ class TestTable extends PureComponent {
             <th>Ouput</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="lobby-table">
           {Array.isArray(sandboxResult) ? tests.map(renderTestItems(sandboxResult)) : tests.map(renderTestItems([])) }
         </tbody>
       </table>
