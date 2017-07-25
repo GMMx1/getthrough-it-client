@@ -1,5 +1,4 @@
-import withHost from '../utils/withHost'
-import { fpost } from '../utils/fetchHelper'
+import { fpost, withHost } from '../utils/fetchHelper'
 import { LOBBIES, lobby } from '../routes'
 
 export const CREATE_LOBBY_REQUEST = 'CREATE_LOBBY_REQUEST'

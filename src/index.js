@@ -6,7 +6,7 @@ import thunk from 'redux-thunk'
 import { history } from 'react-router-dom'
 
 import './index.css'
-import App from './components/App'
+import AppContainer from './containers/AppContainer'
 import registerServiceWorker from './registerServiceWorker'
 
 import authReducer, { ajaxReducer } from './reducers/authentication'
@@ -21,7 +21,7 @@ export const store = createStore(
 
 export const renderApp = () => (
   <Provider store={store}>
-    <App />
+    <AppContainer />
   </Provider>
 )
 

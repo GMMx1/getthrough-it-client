@@ -1,10 +1,13 @@
+import { V, PROTOCOL, HOST, PORT } from '../config'
+
 export const fget = () => {
   return {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include'
   }
 }
 
@@ -22,4 +25,11 @@ export const fput = (body) => {
     method: 'PUT',
     body: JSON.stringify(body)
   }
+}
+
+
+export const withHost = (url) => `${PROTOCOL}${HOST}:${PORT}/${V}${url}`
+
+export const withQuery = (url, query) => {
+  return `${url}?${Object.keys(query).reduce(function(a,k){a.push(k+'='+encodeURIComponent(query[k]));return a},[]).join('&')}`
 }

@@ -10,9 +10,7 @@ const LobbyPage = (props) => {
   return (
     <div className="lobby-page">
       <Navbar />
-      <Lobby
-        lobbyId={props.match.params.id}
-      />
+      <Lobby lobbyId={props.match.params.id} />
       <Footer />
     </div>
   )

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
 import getDisplayName from '../utils/getDisplayName'
-import { fget, fput } from '../utils/fetchHelper'
-import withHost from '../utils/withHost'
+import { fget, fput, withHost } from '../utils/fetchHelper'
 import { NULL_ID, SAME_ID, DIFF_ID, testPeerId } from '../utils/testPeer'
 
 import { lobby as lobbyUrl } from '../routes'

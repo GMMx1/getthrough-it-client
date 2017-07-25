@@ -5,5 +5,7 @@ export const LOGIN = '/login'
 export const LOGOUT = '/logout'
 export const ADD_CHALLENGE = '/admin/createChallenge'
 
+export const AUTH_GITHUB = '/auth/github'
+
 export const LOBBIES = '/lobbies'
 export const lobby = (id) => `/lobbies/${id || ':id'}`

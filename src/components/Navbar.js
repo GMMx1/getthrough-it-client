@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+import { withHost, withQuery } from '../utils/fetchHelper'
+import { AUTH_GITHUB } from '../routes'
 
 class Navbar extends Component {
   render() {
@@ -8,7 +12,7 @@ class Navbar extends Component {
         <a href="#" className="navbar-brand">GET_THROUGH_IT</a>
       </section>
       <section className="navbar-section">
-        <a href="#" className="btn">login with github</a>
+        <a href={withHost(AUTH_GITHUB)} className="btn">login with github</a>
       </section>
       </header>
     )

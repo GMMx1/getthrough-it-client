@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import 'spectre.css/docs/dist/spectre.min.css'
@@ -41,8 +40,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth
-})
-
-export default connect(mapStateToProps)(App)
+export default App
