@@ -3,26 +3,25 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import App from '../components/App'
+import { checkAuthentication } from '../actions/authentication'
 
 class AppContainer extends Component {
   componentDidMount() {
-    
+    this.props.checkAuthentication()
   }
   render() {
     return (
-      <App 
-
-        />
+      <App/>
     )
   }
 }
 
-const mapStateToProps = () => {
-  return {}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkAuthentication: () => {
+      dispatch(checkAuthentication())
+    }
+  }
 }
 
-const mapDispatchToProps = () => {
-  return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)
+export default connect(null, mapDispatchToProps)(AppContainer)

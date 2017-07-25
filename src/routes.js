@@ -5,6 +5,8 @@ export const LOGIN = '/login'
 export const LOGOUT = '/logout'
 export const ADD_CHALLENGE = '/admin/createChallenge'
 
+export const AUTH_ME = '/auth/me'
+export const AUTH_LOGOUT = '/auth/logout'
 export const AUTH_GITHUB = '/auth/github'
 
 export const LOBBIES = '/lobbies'
