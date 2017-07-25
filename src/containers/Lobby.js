@@ -91,12 +91,13 @@ class Lobby extends PureComponent {
       <div className="columns col-gapless container">
           <div className="left-screen column col-lg-2" onClick={this.hideChallenges}>
 
-            <div id="ErrorMessage" style={this.evalMessageStyle}>{this.evalMessage}</div>
 
             <ChallengeInfo
               currentChallenge={this.props.currentChallenge}
               sandboxResult={sandboxResult}
             />
+
+            <div id="ErrorMessage" style={this.evalMessageStyle}>{this.evalMessage}</div>
 
             <Webcam
               isUserMediaLoading={isUserMediaLoading}

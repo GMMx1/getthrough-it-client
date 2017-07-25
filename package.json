@@ -12,7 +12,6 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-scripts": "1.0.10",
-    "react-simpletabs": "^0.7.0",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
     "spectre.css": "^0.2.14"
