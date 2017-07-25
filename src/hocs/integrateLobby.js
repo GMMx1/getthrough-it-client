@@ -38,6 +38,12 @@ const integrateLobby = (WrappedComponent) => {
         this.props.peer.on('call', (call) => {
           call.answer(this.props.stream)
           call.on('stream', (peerStream) => this.setState({ peerStream }))
+          call.on('close', (something) => {
+            this.props.peer.connections = {}
+            this.setState({
+              peerStream: null
+            })
+          })
         })
         this.props.peer.on('connection', (connection) => {
           this.setState({ connection }, () => {
@@ -51,6 +57,7 @@ const integrateLobby = (WrappedComponent) => {
       const response = await fetch(withHost(lobbyUrl(this.props.lobbyId)), fget())
       const lobby = await response.json()
       const [peerId, myId] = [lobby.peerId, this.props.userId]
+      console.log("peer on props: ", peer)
 
       this.setState({ editorValue: lobby.editorState })
 
