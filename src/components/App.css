@@ -91,7 +91,7 @@ th, td {
 .test-suite {
   position: relative;
   order: 1;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: scroll;
   height: 35vh;
 }
@@ -128,6 +128,30 @@ th, td {
   width: 100vw;
 }
 
+.challenge-tab {
+  border: none;
+  background-color: #272822;
+  color: slategray;
+  padding: 2.5% 2.5% 2.5% 2.5%;
+  margin:  2.5% 2.5% 2.5% 2.5%;
+  width: 45%;
+}
+
+.onActive {
+  background-color: black;
+  color: white;
+  border-bottom: 3px solid green;
+}
+
+#ChallengeInfoTabStrip {
+  align-items: center;
+}
+
+#landingPage {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 #create-lobby {
   margin-top: 125px;
   width: 400px;
@@ -146,13 +170,12 @@ th, td {
 #landingPageGif {
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 93.5vh;
   background: url('./landingPage.gif') no-repeat;
   background-size: cover;
   z-index: -1;
   filter: blur(0.8px);
   overflow-y: hidden;
-  border-color: black;
   margin: 0;
   padding: 0;
 }
