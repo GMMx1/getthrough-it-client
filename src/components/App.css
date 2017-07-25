@@ -40,7 +40,7 @@ th, td {
   color: white;
   height: 100vh;
   /*padding-right: 23px;*/
-  /*overflow: hidden;*/
+  overflow: hidden;
 }
 
 /*left side of screen: */
