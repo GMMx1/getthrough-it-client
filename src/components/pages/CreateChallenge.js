@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { fget, fput, fpost } from '../../utils/fetchHelper'
+import { withHost, fget, fput, fpost } from '../../utils/fetchHelper'
+import { CHALLENGES } from '../../routes'
 
 
 class CreateChallenge extends PureComponent {
@@ -29,8 +30,6 @@ class CreateChallenge extends PureComponent {
   componentWillMount() {
     this.getChallenges()
   }
-
-
 
   handleFuncChange(event) {
     this.setState({
@@ -343,15 +342,15 @@ class CreateChallenge extends PureComponent {
   }
 
   async createNewChallenge(body) {
-    fetch(`http://localhost:8000/v1/challenges`, fpost(body))
+    fetch(withHost(CHALLENGES), fpost(body))
   }
 
   async updateChallenge(body) {
-    fetch(`http://localhost:8000/v1/challenges`, fput(body))
+    fetch(withHost(CHALLENGES), fput(body))
   }
 
   getChallenges() {
-    fetch(`http://localhost:8000/v1/challenges`, fget())
+    fetch(withHost(CHALLENGES), fget())
     .then(res => res.json())
     .then((challenges) => {
       console.log('challenges: ', challenges)

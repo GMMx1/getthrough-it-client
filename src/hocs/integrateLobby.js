@@ -81,8 +81,10 @@ const integrateLobby = (WrappedComponent) => {
     }
 
     onChallengeChange(item) {
-      this.setState({
-        currentChallenge: item
+      this.setState({ currentChallenge: item }, () => {
+        console.log('CALLING THIS')
+        this.state.connection &&
+        this.state.connection.send({ currentChallenge: item })
       })
     }
 

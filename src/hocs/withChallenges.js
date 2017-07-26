@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { fget, fput, fpost } from '../utils/fetchHelper'
+import { withHost, fget, fput, fpost } from '../utils/fetchHelper'
 import getDisplayName from '../utils/getDisplayName'
+import { lobbyChallenges } from '../routes'
 
 
 const withChallenges = (WrappedComponent) => {
@@ -17,11 +18,10 @@ const withChallenges = (WrappedComponent) => {
     componentDidMount() {
       this.getChallenges()
       console.log('this.props in withChallenges: ', this.props)
-
     }
 
     async getChallenges() {
-      const res = await fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fget())
+      const res = await fetch(withHost(lobbyChallenges(this.props.lobbyId)), fget())
       const challenges = await res.json()
       console.log('challenges: ', challenges)
       this.setState({
@@ -30,26 +30,12 @@ const withChallenges = (WrappedComponent) => {
     }
 
     updateLobbyChallenge(body) {
-      fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fput(body))
+      fetch(withHost(lobbyChallenges(this.props.lobbyId)), fput(body))
     }
 
     createNewLobbyChallenge(body) {
-      fetch(`http://localhost:8000/v1/lobbies/${this.props.lobbyId}/challenges`, fpost(body))
+      fetch(withHost(lobbyChallenges(this.props.lobbyId)), fpost(body))
     }
-
-
-
-    // actions needed:
-      // get all challenges
-      // get all lobby challenge data (may want to grab editorData in separate request)
-      // post new lobby-challenge on click for specific challenge in a lobby
-      // update existing lobby-challenge
-
-    // state needed:
-      // currentChallenge: (your current or choosing a challenge)
-
-    // need all challenges but not on state
-
 
     render() {
       return (

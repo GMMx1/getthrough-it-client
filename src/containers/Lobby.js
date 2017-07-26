@@ -7,12 +7,10 @@ import withSandbox from '../hocs/withSandbox'
 import integrateLobby from '../hocs/integrateLobby'
 import withChallenges from '../hocs/withChallenges'
 
-
-// import Video from '../components/Video'
 import Editor from '../components/Editor'
 import TestTable from '../components/TestTable'
 import Challenges from '../components/challenges'
-import Webcam from '../components/webcam'
+import Webcam from '../components/Webcam'
 import ChallengeInfo from '../components/ChallengeInfo'
 
 class Lobby extends PureComponent {
@@ -43,15 +41,6 @@ class Lobby extends PureComponent {
       this.props.onEditorChange(item.editorState)
     }
     this.props.onChallengeChange(item)
-  }
-
-
-
-  onEditorChange(newValue) {
-    this.setState({ editorValue: newValue }, () => {
-      this.state.connection &&
-      this.state.connection.send({ editorValue: newValue })
-    })
   }
 
   onRunClick(e) {
@@ -87,6 +76,7 @@ class Lobby extends PureComponent {
 
   render() {
     const { stream: myStream, peerStream, sandboxResult, isUserMediaLoading } = this.props
+    console.log(myStream, peerStream)
     return (
       <div className="columns col-gapless container">
           <div className="left-screen column col-lg-2" onClick={this.hideChallenges}>
