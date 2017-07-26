@@ -91,7 +91,6 @@ class Lobby extends PureComponent {
       <div className="columns col-gapless container">
           <div className="left-screen column col-lg-2" onClick={this.hideChallenges}>
 
-
             <ChallengeInfo
               currentChallenge={this.props.currentChallenge}
               sandboxResult={sandboxResult}

@@ -31,20 +31,24 @@ class ChallengeInfo extends Component {
 
   render() {
     return (
-      <div>
-        <div id="ChallengeInfoTabStrip">
+      <div id="ChallengeInfoTabs">
+        <div className="container">
           <button className={"challenge-tab " + this.state.instructionStyle} onClick={this.toggleToInstruction}>Instructions</button>
           <button className={"challenge-tab " + this.state.testStyle} onClick={this.toggleToTest}>Tests</button>
         </div>
 
         {this.state.shown === 'instruction'
-        ? <div id="ChallengeInstruction">{this.props.currentChallenge.question}</div>
-        : <div className="test-suite">
-          <TestTable
-          tests={this.props.currentChallenge.input_output || []}
-          sandboxResult={this.props.sandboxResult || []} />
-          </div>}
+          ? <div id="ChallengeInstruction">
+              <h4>{this.props.currentChallenge.name}</h4>
+              <hr />
+              {this.props.currentChallenge.question}
+            </div>
 
+          : <div className="test-suite">
+            <TestTable
+            tests={this.props.currentChallenge.input_output || []}
+            sandboxResult={this.props.sandboxResult || []} />
+            </div>}
       </div>
     )
   }
