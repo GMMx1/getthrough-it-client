@@ -15,6 +15,16 @@ const withSandbox = (WrappedComponent) => {
       this.sandboxEval = this.sandboxEval.bind(this)
     }
 
+    componentWillReceiveProps(nextProps) {
+      if (this.props.currentChallenge && nextProps.currentChallenge) {
+        if (this.props.currentChallenge.id !== nextProps.currentChallenge.id) {
+          this.setState({
+            sandboxResult: undefined
+          })
+        }
+      }
+    }
+
     componentDidMount() {
       console.log(this.props)
       window.addEventListener('message', this.sandboxResultListener.bind(this))
@@ -29,7 +39,7 @@ const withSandbox = (WrappedComponent) => {
     sandboxEval(code) {
       code = `const expect = ${expect}
       ${code}
-      ${JSON.stringify(this.props.currentChallenge.input_output)}.map(pair => expect(${this.props.currentChallenge.name}(...pair[0]), pair[1]))`
+      ${JSON.stringify(this.props.currentChallenge.input_output)}.map(pair => expect(${this.props.currentChallenge.name}(...pair[0]), pair[1], "${this.props.currentChallenge.output_type}"))`
       this.frame.contentWindow.postMessage(code, '*')
     }
 

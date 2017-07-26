@@ -81,8 +81,17 @@ const integrateLobby = (WrappedComponent) => {
     }
 
     onChallengeChange(item) {
+      var input_types = JSON.parse(item.input_type)
+      for (var type=0; type<input_types.length; type++) {
+        if (input_types[type] === "Array" || input_types[type] === "Object") {
+          for (var i=0; i<item.input_output.length; i++) {
+            if (typeof item.input_output[i][0][type] === "string" && input_types[type] !== "String") {
+              item.input_output[i][0][type] = JSON.parse(item.input_output[i][0])
+            }
+          }
+        }
+      }
       this.setState({ currentChallenge: item }, () => {
-        console.log('CALLING THIS')
         this.state.connection &&
         this.state.connection.send({ currentChallenge: item })
       })

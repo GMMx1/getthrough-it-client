@@ -294,3 +294,29 @@ tbody.lobby-table tr:nth-child(odd) {
 table {
   border-collapse: separate;
 }
+
+/* successul submission pop up*/
+.modal {
+  font-size: 20px;
+  color: red;
+  text-align: center;
+  border-color: black
+}
+
+.modal {
+  font-size: 20px;
+  text-align: center;
+  border-color: black
+}
+
+.icon-check {
+  display: block;
+  margin: auto;
+  color: green;
+}
+
+.icon-cross {
+  display: block;
+  margin: auto;
+  color: red;
+}
