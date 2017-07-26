@@ -28,7 +28,7 @@ export const fput = (body) => {
 }
 
 
-export const withHost = (url) => `${PROTOCOL}${HOST}:${PORT}/${V}${url}`
+export const withHost = (url) => `${PROTOCOL}api.${HOST}${PORT ? `:${PORT}` : ''}/${V}${url}`
 
 export const withQuery = (url, query) => {
   return `${url}?${Object.keys(query).reduce(function(a,k){a.push(k+'='+encodeURIComponent(query[k]));return a},[]).join('&')}`
