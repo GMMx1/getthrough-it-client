@@ -40,7 +40,7 @@ th, td {
   color: white;
   height: 100vh;
   /*padding-right: 23px;*/
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 /*left side of screen: */
@@ -222,7 +222,7 @@ th, td {
 }
 
 #TestTable {
-  width: 100%;
+  width: 99%;
   height: auto;
   border: none;
   margin-left: 3px;
@@ -231,7 +231,8 @@ th, td {
 
 /* custom scrollbar */
 ::-webkit-scrollbar {
-    width: 5px;
+  width: 5px;
+  height: 5px;
 }
 
 /* Track */
@@ -251,10 +252,14 @@ th, td {
 	background: transparent;
 }
 
+::-webkit-scrollbar-corner {
+  background-color: #2f3129;
+}
+
 tbody.lobby-table tr:nth-child(odd) {
    background-color: #272822;
 }
 
 table {
-  border-collapse: collapse;
+  border-collapse: separate;
 }
