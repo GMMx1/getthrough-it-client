@@ -2,6 +2,10 @@ th, td {
   padding: 1rem;
 }
 
+hr {
+  border-color: black;
+}
+
 .btn {
   color: white;
   background: transparent;
@@ -129,12 +133,17 @@ th, td {
 }
 
 .challenge-tab {
+  cursor: pointer;
   border: none;
   background-color: #272822;
   color: slategray;
-  padding: 2.5% 2.5% 2.5% 2.5%;
-  margin:  2.5% 2.5% 2.5% 2.5%;
-  width: 45%;
+  padding: 1.5% 2.5% 1.5% 2.5%;
+  margin:  2.5% 0px 2.5% 0px;
+  width: 50%;
+}
+
+.challenge-tab:hover {
+  color: darkgray;
 }
 
 .onActive {
@@ -143,8 +152,14 @@ th, td {
   border-bottom: 3px solid green;
 }
 
-#ChallengeInfoTabStrip {
-  align-items: center;
+
+#ChallengeInfoTabs {
+  margin-top: 32px;
+}
+
+#ChallengeInstruction {
+  padding: 5px 10px 5px 10px;
+  overflow: scroll;
 }
 
 #landingPage {
@@ -188,17 +203,28 @@ th, td {
 }
 
 #RunButton {
+  width: 150px;
   display: inline;
   margin-left: 35px;
   background-color: #272822;
   border: none;
+}
 
+#RunButton:hover {
+  background-color: black;
+  border-bottom: 2px solid green;
 }
 
 #ChallengeButton {
-  margin-left: 30%;
+  width: 150px;
+  margin-left: 30vh;
   background-color: #272822;
   border: none;
+}
+
+#ChallengeButton:hover {
+  background-color: black;
+  border-bottom: 2px solid green;
 }
 
 #EditorBar {
