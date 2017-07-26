@@ -11,6 +11,7 @@ import Editor from '../components/Editor'
 import TestTable from '../components/TestTable'
 import Challenges from '../components/challenges'
 import Webcam from '../components/Webcam'
+import ChallengeInfo from '../components/ChallengeInfo'
 
 class Lobby extends PureComponent {
   constructor(props) {
@@ -79,28 +80,30 @@ class Lobby extends PureComponent {
     return (
       <div className="columns col-gapless container">
           <div className="left-screen column col-lg-2" onClick={this.hideChallenges}>
-            <div>
-              <div className="text-bold centered">{this.props.currentChallenge.name}</div>
-              <div>{this.props.currentChallenge.question}</div>
-              {!!this.props.currentChallenge &&
-                <div className="test-suite">
-                  <TestTable
-                    tests={this.props.currentChallenge.input_output || []}
-                    sandboxResult={sandboxResult || []} />
-                  </div> }
-            </div>
+
+
+            <ChallengeInfo
+              currentChallenge={this.props.currentChallenge}
+              sandboxResult={sandboxResult}
+            />
+
             <div id="ErrorMessage" style={this.evalMessageStyle}>{this.evalMessage}</div>
+
             <Webcam
               isUserMediaLoading={isUserMediaLoading}
               myStream={myStream}
               peerStream={peerStream}
             />
+
           </div>
+
           <section className='editor-section column col-lg-8'>
+
             <div id="EditorBar" className="centered">
               <button id="ChallengeButton" className="btn" onClick={this.showChallenges}>CHALLENGES</button>
               <button id="RunButton" className="btn" onClick={this.onRunClick}>RUN</button>
             </div>
+
             <div onClick={this.hideChallenges}>
               <Editor
                 value={this.props.editorValue || ''}
@@ -115,6 +118,7 @@ class Lobby extends PureComponent {
             onChallengeClick={this.onChallengeClick.bind(this)}
           />
         </section>
+
       </div>
     )
   }
