@@ -10,11 +10,11 @@ import './App.css'
 import LobbyPage from './pages/LobbyPage'
 import LandingPage from './pages/LandingPage'
 import CreateChallenge from "./pages/CreateChallenge"
+import ProfilePage from "./pages/ProfilePage"
 
 import {
   HOME,
-  LOGIN,
-  LOGOUT,
+  PROFILE,
   ADD_CHALLENGE,
   lobby,
 } from '../routes'
@@ -26,8 +26,7 @@ class App extends Component {
         <div className="App">
           <Switch>
             <Route exact path={HOME} render={() => <LandingPage />} />
-            <Route exact path={LOGIN} render={() => <span>Login</span>} />
-            <Route exact path={LOGOUT} render={() => <span>Logout</span>} />
+            <Route exact path={PROFILE} render={() => <ProfilePage />} />
             <Route exact path={ADD_CHALLENGE} render={() => <CreateChallenge />} />
             <Route exact path={lobby()} render={() => <LobbyPage />} />
             <Route render={() => <span>Catch All</span>} />
