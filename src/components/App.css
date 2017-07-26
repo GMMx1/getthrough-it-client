@@ -45,8 +45,6 @@ button:focus {outline:0;}
   background-color: #2f3129;
   color: white;
   height: 100vh;
-  /*padding-right: 23px;*/
-  /*overflow: hidden;*/
 }
 
 /*left side of screen: */
@@ -81,7 +79,7 @@ button:focus {outline:0;}
   display: flex;
   justify-content: center;
   align-items: center;
-  text: white;
+  color: slategray;
   font-size: 20px;
   background-color: black;
 }
@@ -154,12 +152,18 @@ button:focus {outline:0;}
   border-bottom: 3px solid green;
 }
 
+#RunIcon {
+  width: 22px;
+  height: auto;
+  color: white;
+}
+
 #ErrorMessage {
   margin-left: 5%;
 }
 
 #ChallengeInfoTabs {
-  margin-top: 32px;
+  margin-top: 20px;
 }
 
 #ChallengeInstruction {

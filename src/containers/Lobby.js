@@ -110,7 +110,7 @@ class Lobby extends PureComponent {
 
             <div id="EditorBar" className="centered">
               <button id="ChallengeButton" className="btn" onClick={this.showChallenges}>CHALLENGES</button>
-              <button id="RunButton" className="btn" onClick={this.onRunClick}>RUN</button>
+              <button id="RunButton" className="btn" onClick={this.onRunClick}><img id="RunIcon" src="http://www.hey.fr/fun/emoji/android/en/icon/android/40-emoji_android_black_right-pointing_triangle.png" /></button>
             </div>
 
             <div onClick={this.hideChallenges}>
