@@ -1,10 +1,18 @@
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+import { handleActions } from 'redux-actions'
+
+import {
+  CHECK_AUTHENTICATION_REQUEST,
+  CHECK_AUTHENTICATION_SUCCESS,
+  CHECK_AUTHENTICATION_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE
+} from '../actions/authentication'
 
 const initialState = {
   user: null,
   isLoading: false,
+  error: null
 }
 
 export const ajaxReducer = (state, action) => {
@@ -15,17 +23,37 @@ export const ajaxReducer = (state, action) => {
   }
 }
 
-const authReducer = (state = initialState, action) => {
-  switch(action.type) {
-    case LOGIN_REQUEST:
-      return { ...state, isLoading: true }
-    case LOGIN_SUCCESS:
-      return { ...state, user: action.payload, isLoading: false }
-    case LOGIN_FAILURE:
-      return { ...state, isLoading: false }
-    default: 
-      return state
-  }
-}
+const authReducer = handleActions({
+  CHECK_AUTHENTICATION_REQUEST: (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: null
+  }),
+  CHECK_AUTHENTICATION_SUCCESS: (state, action) => ({
+    ...state,
+    isLoading: false,
+    user: action.payload
+  }),
+  CHECK_AUTHENTICATION_FAILURE: (state, action) => ({
+    ...state,
+    isLoading: false,
+    user: null
+  }),
+  LOGOUT_REQUEST: (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: null
+  }),
+  LOGOUT_SUCCESS: (state, action) => ({
+    ...state,
+    isLoading: false,
+    user: null
+  }),
+  LOGOUT_FAILURE: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error
+  })
+}, initialState)
 
 export default authReducer

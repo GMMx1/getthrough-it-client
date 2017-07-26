@@ -91,8 +91,9 @@ const integrateLobby = (WrappedComponent) => {
           }
         }
       }
-      this.setState({
-        currentChallenge: item
+      this.setState({ currentChallenge: item }, () => {
+        this.state.connection &&
+        this.state.connection.send({ currentChallenge: item })
       })
     }
 

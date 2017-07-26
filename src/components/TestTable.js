@@ -16,7 +16,7 @@ class TestTable extends PureComponent {
           <tr>
             <th>Input</th>
             <th>Expected</th>
-            <th>Ouput</th>
+            <th>Output</th>
           </tr>
         </thead>
         <tbody className="lobby-table">

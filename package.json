@@ -13,6 +13,7 @@
     "react-router-dom": "^4.1.1",
     "react-scripts": "1.0.10",
     "redux": "^3.7.1",
+    "redux-actions": "^2.2.1",
     "redux-thunk": "^2.2.0",
     "spectre.css": "^0.2.14"
   },
@@ -22,7 +23,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "yarn build && aws s3 sync build/ s3://getthrough-it",
-    "invalidate:cloudfront": "aws cloudfront create-invalidation --distribution-id E1O8P0EEWFPJNT --paths **"
+    "invalidate:cloudfront": "aws cloudfront create-invalidation --distribution-id E1O8P0EEWFPJNT --paths \\*"
   },
   "devDependencies": {
     "aws": "^0.0.3-2"

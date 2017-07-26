@@ -21,7 +21,7 @@ const getUserMedia = () => (
 )
 
 const peerConfig = (iceServers) => ({ 
-  host: `${HOST}`,
+  host: `api.${HOST}`,
   port: PORT,
   secure: SECURE,
   path: '/peerjs',
@@ -44,12 +44,13 @@ const withUserMedia = (WrappedComponent) => {
       try {
         const userId = localStorage.getItem('userId') || Date.now()
         localStorage.setItem('userId', userId)
-        
+        console.log('GOT HERE')
         const [res, stream] = await Promise.all([getCredentials(), getUserMedia()])
         const peer = new Peer(`${userId}${this.props.lobbyId}`,peerConfig(res.v.iceServers))
-
+        console.log('GOT STREAM AND RES', res, stream)
         this.setState({ stream, peer, userId, isUserMediaLoading: false })
       } catch (error) {
+        console.error(error)
         this.setState({ error, isUserMediaLoading: false })
       }
     }
