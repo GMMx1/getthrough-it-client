@@ -3,8 +3,10 @@ th, td {
 }
 
 hr {
-  border-color: black;
+  border-color: #272822;
 }
+
+button:focus {outline:0;}
 
 .btn {
   color: white;
@@ -138,8 +140,8 @@ hr {
   background-color: #272822;
   color: slategray;
   padding: 1.5% 2.5% 1.5% 2.5%;
-  margin:  2.5% 0px 2.5% 0px;
-  width: 50%;
+  margin:  2.5% 1px 2.5% 1px;
+  width: 49%;
 }
 
 .challenge-tab:hover {
@@ -152,6 +154,9 @@ hr {
   border-bottom: 3px solid green;
 }
 
+#ErrorMessage {
+  margin-left: 5%;
+}
 
 #ChallengeInfoTabs {
   margin-top: 32px;
