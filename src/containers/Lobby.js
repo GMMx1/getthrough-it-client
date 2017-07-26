@@ -21,7 +21,9 @@ class Lobby extends PureComponent {
     this.showChallenges = this.showChallenges.bind(this)
     this.hideChallenges = this.hideChallenges.bind(this)
     this.state = {
-      challengesVisibility: 'hide'
+      challengesVisibility: 'hide',
+      activeModal: '',
+      passed: true
     }
   }
 
@@ -53,6 +55,12 @@ class Lobby extends PureComponent {
     })
   }
 
+  popupSubmit() {
+    this.setState({
+      activeModal: "active"
+    }, () => {setTimeout(() => {this.setState({activeModal: ""})}, 1500)})
+  }
+
   onRunClick(e) {
     this.props.sandboxEval(this.props.editorValue)
   }
@@ -69,12 +77,18 @@ class Lobby extends PureComponent {
             marginRight: '40px'}
           this.evalMessage = "You passed: " + this.props.currentChallenge.input_output.length + '/' + this.props.currentChallenge.input_output.length
           this.props.currentChallenge.complete = true
+          this.setState({
+            passed: true
+          }, this.popupSubmit)
         } else {
           this.evalMessageStyle = {
             color: 'red',
             float: 'right',
             marginRight: '40px'}
           this.evalMessage = "You passed: " + nextProps.sandboxResult.reduce((acc, el) => (el === true ? acc + 1 : acc), 0) + '/' + this.props.currentChallenge.input_output.length
+          this.setState({
+            passed: false
+          }, this.popupSubmit)
           this.props.currentChallenge.complete = false
         }
         this.props.updateLobbyChallenge({challengeId: this.props.currentChallenge.id, complete: this.props.currentChallenge.complete = true, editorState: this.props.editorValue})
@@ -125,6 +139,22 @@ class Lobby extends PureComponent {
             onChallengeClick={this.onChallengeClick.bind(this)}
           />
         </section>
+        <div className={"modal "+this.state.activeModal} style={this.state.passed ? {color: "green"} : {color: "red"}}>
+          <div className="modal-overlay"></div>
+          <div className="modal-container">
+            <div className="modal-header">
+              <div  className="modal-title">{this.state.passed ? "Success!" : "Tests Failed"}</div>
+            </div>
+            <div className="modal-body">
+              <div className="modal-content">
+                {this.state.passed ?
+                  <i className="icon icon-check"></i>
+                  : <i className="icon icon-cross"></i>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
