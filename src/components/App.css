@@ -215,12 +215,29 @@ button:focus {outline:0;}
   font-size: 1.5em;
 }
 
-#RunButton {
+#RunButton  {
   width: 150px;
   display: inline;
   margin-left: 35px;
   background-color: #272822;
   border: none;
+}
+
+#ResetButton {
+  width: 150px;
+  display: inline;
+  margin-left: 35px;
+  background-color: #272822;
+  border: none;
+}
+
+#ResetButton .hide {
+  display: none;
+}
+
+#ResetButton:hover {
+  background-color: black;
+  border-bottom: 2px solid green;
 }
 
 #RunButton:hover {
@@ -304,12 +321,6 @@ table {
 }
 
 /* successul submission pop up*/
-.modal {
-  font-size: 20px;
-  color: red;
-  text-align: center;
-  border-color: black
-}
 
 .modal {
   font-size: 20px;

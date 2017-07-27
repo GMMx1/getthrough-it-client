@@ -22,16 +22,23 @@ class Lobby extends PureComponent {
     this.state = {
       challengesVisibility: 'hide',
       activeModal: '',
-      passed: true
+      passed: true,
+      resetVisiblity: ''
     }
   }
 
   showChallenges() {
-    this.setState({challengesVisibility: 'animated slideInRight visible'})
+    this.setState({
+      challengesVisibility: 'animated slideInRight visible',
+      resetVisiblity: 'hide'
+    })
   }
 
   hideChallenges() {
-    this.setState({challengesVisibility: 'hide'})
+    this.setState({
+      challengesVisibility: 'hide',
+      resetVisiblity: ''
+    })
   }
 
   onChallengeClick(item) {
@@ -64,6 +71,13 @@ class Lobby extends PureComponent {
 
   onRunClick(e) {
     this.props.sandboxEval(this.props.editorValue)
+  }
+
+  onResetClick() {
+    var reset = alert("Are you sure you want to Reset?\nCURRENT PROGRESS FOR THIS CHALLENGE WILL BE ERASED!!!")
+    if (reset) {
+      this.onEditorChange(this.props.currentChallenge.initial_editor)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -126,6 +140,7 @@ class Lobby extends PureComponent {
             <div id="EditorBar" className="centered">
               <button id="ChallengeButton" className="btn" onClick={this.showChallenges}>CHALLENGES</button>
               <button id="RunButton" className="btn" onClick={this.onRunClick}><img id="RunIcon" src="http://www.hey.fr/fun/emoji/android/en/icon/android/40-emoji_android_black_right-pointing_triangle.png" /></button>
+              <button id="ResetButton" className={"btn "+this.state.resetVisiblity} onClick={this.onResetClick}>RESET</button>
             </div>
 
             <div onClick={this.hideChallenges}>
