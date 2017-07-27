@@ -5041,6 +5041,10 @@ react-ace@^5.1.0:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
+react-confirm@^0.1.14:
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/react-confirm/-/react-confirm-0.1.14.tgz#c4202c1bddd43bd422979f3b804d64f8f0c51ea6"
+
 react-dev-utils@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-3.0.2.tgz#1a42263e9b6aa11dcb45d69dfe5eb1b354bd5531"

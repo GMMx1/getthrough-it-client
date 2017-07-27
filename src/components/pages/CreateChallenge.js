@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { withHost, fget, fput, fpost } from '../../utils/fetchHelper'
+import { withHost, fget, fput, fpost, fdelete } from '../../utils/fetchHelper'
 import { CHALLENGES } from '../../routes'
 
 
@@ -14,8 +14,8 @@ class CreateChallenge extends PureComponent {
       outputType: "String",
       numTests: 0,
       tests: {},
-      question: undefined,
-      functionName: undefined,
+      question: "",
+      functionName: "",
       existing: false,
       challenges: [],
       currentChallenge: undefined
@@ -70,9 +70,7 @@ class CreateChallenge extends PureComponent {
     this.setState({
       inputs: {...this.state.inputs, ...o1}
     })
-    console.log(this.state.inputs[0] ?
-      Object.values(this.state.inputs).map(arr => arr[0] === undefined ? "_" : arr[0]).join(", ")
-      : "inputs")
+
   }
 
   handleOutputType(event) {
@@ -93,7 +91,7 @@ class CreateChallenge extends PureComponent {
     }
     this.setState({
       tests: tests
-    }, () => {console.log('this.state.tests: ', this.state.tests)})
+    })
   }
 
   addTest() {
@@ -114,14 +112,13 @@ class CreateChallenge extends PureComponent {
   }
 
   outputTestChange(event) {
-    console.log('event.target.value: ', event.target.value)
     var idx = Number(event.target.id.replace("outputValue_", ""))
     var test = {}
     test[idx] = this.state.tests[idx].slice()
     test[idx][1] = event.target.value
     this.setState({
       tests: {...this.state.tests, ...test}
-    }, () => {console.log('this.state.tests: ', this.state.tests)})
+    })
   }
 
   inputTestChange(event) {
@@ -129,10 +126,9 @@ class CreateChallenge extends PureComponent {
     var test = {}
     test[idx] = this.state.tests[idx].slice()
     test[idx][0][Number(event.target.id.slice(-1))] = event.target.value
-    console.log('event.target.value: ', event.target.value)
     this.setState({
       tests: {...this.state.tests, ...test}
-    }, () => {console.log('this.state.tests: ', this.state.tests)})
+    })
   }
 
   toggleHidden(event) {
@@ -319,10 +315,10 @@ class CreateChallenge extends PureComponent {
     body.tests = tests
 
     if (this.state.existing) {
-      this.updateChallenge(body)
+      this.updateChallenge({...body, id: this.state.challengeId})
       .then((something) => {
-        console.log('something: ', something)
         alert("Response successfully submitted!!")
+        this.clearInputs()
       })
       .catch((e) => {
         console.log('some error: ', e)
@@ -330,14 +326,13 @@ class CreateChallenge extends PureComponent {
     } else {
       this.createNewChallenge(body)
       .then((something) => {
-        console.log('something: ', something)
         alert("Response successfully submitted!!")
+        this.clearInputs()
       })
       .catch((e) => {
         console.log('some error: ', e)
       })
     }
-    console.log("tests: ", tests)
 
   }
 
@@ -353,32 +348,51 @@ class CreateChallenge extends PureComponent {
     fetch(withHost(CHALLENGES), fget())
     .then(res => res.json())
     .then((challenges) => {
-      console.log('challenges: ', challenges)
       this.setState({
         challenges: challenges
       })
     })
   }
 
-  toggleExisting() {
-    this.setState({
-      existing: !this.state.existing
+  deleteChallenge(id) {
+    fetch(withHost(CHALLENGES)+'/'+id, fdelete())
+    .then(data => {
+      console.log('DATA FROM DELETE: ', data)
+      this.clearInputs()
     })
   }
 
-  handleChallengeClick(event) {
+  deleteButton() {
+    var confirm = window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS CHALLENGE?")
+    if (confirm) {
+      this.deleteChallenge(this.state.challengeId)
+      this.setState({
+        challenges: this.state.challenges.slice(0, this.state.currentChallenge).concat(this.state.challenges.slice(this.state.currentChallenge+1))
+      })
+    }
+  }
+
+  toggleExisting() {
     this.setState({
-      currentChallenge: event.target.value
-    }, () => {this.updateChallengeClick(this.state.challenges[this.state.currentChallenge])})
+      existing: !this.state.existing
+    }, () => {!this.state.existing && this.clearInputs() })
+  }
+
+  handleChallengeClick(event) {
+    if (event.target.value !== '-') {
+      this.setState({
+        currentChallenge: event.target.value
+      }, () => {this.updateChallengeClick(this.state.challenges[this.state.currentChallenge])})
+    } else {
+      this.toggleExisting()
+    }
   }
 
   updateChallengeClick(challenge) {
     var input_types = JSON.parse(challenge.input_type)
-    console.log('input_types: ', input_types)
     var initial = challenge.initial_editor.replace('function ', '').replace(challenge.name, '')
     var input_names = initial.slice(1, initial.indexOf(')'))
     input_names = input_names.split(',')
-    console.log('input_names: ', input_names)
     var inputs = {}
     for (var i = 0; i< input_names.length; i++) {
       inputs[i] = [input_names[i], input_types[i]]
@@ -394,9 +408,23 @@ class CreateChallenge extends PureComponent {
       numTests: challenge.input_output.length,
       tests: tests,
       question: challenge.question,
-      functionName: challenge.name
-    }, () => {console.log('this.state: ', this.state)})
+      functionName: challenge.name,
+      challengeId: challenge.id
+    })
+  }
 
+  clearInputs() {
+    this.setState({
+      numInputs: 0,
+      inputs: {},
+      outputType: "String",
+      numTests: 0,
+      tests: {},
+      question: "",
+      functionName: "",
+      existing: false,
+      currentChallenge: undefined
+    })
   }
 
 
@@ -409,12 +437,15 @@ class CreateChallenge extends PureComponent {
             <input type="radio" checked={this.state.existing} onClick={this.toggleExisting.bind(this)} className="regular-radio" />
           </label>
           {this.state.existing &&
-          <select name="chooseChallenge" value={this.state.currentChallenge} onChange={this.handleChallengeClick.bind(this)}>
-            <option value={undefined}>-</option>
-            {this.state.challenges.map((challenge, i) =>
-              <option key={i} value={i}>{challenge.name}</option>
-            )}
-          </select>
+          <div>
+            <select name="chooseChallenge" value={this.state.currentChallenge} onChange={this.handleChallengeClick.bind(this)}>
+              <option value={undefined}>-</option>
+              {this.state.challenges.map((challenge, i) =>
+                <option key={i} value={i}>{challenge.name}</option>
+              )}
+            </select>
+            <button  style={{color: "black"}} onClick={this.deleteButton.bind(this)} className="delete btn">DELETE THIS CHALLENGE</button>
+          </div>
           }
         </div>
         <div style={{float: "left", padding: "25px", fontSize: "20px", clear: "both"}}>
@@ -429,7 +460,7 @@ class CreateChallenge extends PureComponent {
         </div>
         <div style={{float: "left", padding: "25px", fontSize: "14px", clear: "both", display: "flex", alignItems: "center"}}>
           <label> Question:&nbsp;&nbsp;&nbsp;</label>
-            <textarea type="text" name="FunctionName" id="FunctionName" value={this.state.question} onChange={this.handleQuestionChange.bind(this)} placeholder="Question for Challenge"/>
+            <textarea type="text" name="Question" id="Question" value={this.state.question} onChange={this.handleQuestionChange.bind(this)} placeholder="Question for Challenge"/>
           <br />
         </div>
       <br />
@@ -468,7 +499,6 @@ class CreateChallenge extends PureComponent {
             </tr>
           </thead>
           <tbody>
-            {console.log("[...Array(this.state.numInputs)]: ",[...Array(this.state.numInputs)])}
             {[...Array(this.state.numInputs)].map((x, i) =>
               <tr key={i}>
                 <td>
@@ -507,7 +537,6 @@ class CreateChallenge extends PureComponent {
             {/* {[...Array(this.state.numTests)].map((x, i) => */}
             {Object.keys(this.state.tests).map((i, idx) =>
               <tr key={i}>
-                {console.log('this.state.tests: ', this.state.tests)}
                 <td>
                   <span style={{width: "100%"}}> {idx+1}.  </span>
                   {Object.values(this.state.inputs).map((arr,idx) => {
