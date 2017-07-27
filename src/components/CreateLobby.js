@@ -7,9 +7,9 @@ import { lobby as lobbyUrl } from '../routes'
 class CreateLobby extends Component {
   render() {
     return (
-      <button 
-        id="create-lobby" 
-        className="btn centered" 
+      <button
+        id="create-lobby"
+        className="btn centered text-bold" 
         onClick={this.props.onClick}>
         CREATE NEW LOBBY
       </button>

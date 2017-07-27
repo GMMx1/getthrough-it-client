@@ -8,6 +8,13 @@ hr {
 
 button:focus {outline:0;}
 
+
+.navbar-brand {
+  color: green;
+  width: 80px;
+  height: auto;
+}
+
 .btn {
   color: white;
   background: transparent;
@@ -142,10 +149,6 @@ button:focus {outline:0;}
   width: 49%;
 }
 
-.challenge-tab:hover {
-  color: darkgray;
-}
-
 .onActive {
   background-color: black;
   color: white;
@@ -181,14 +184,15 @@ button:focus {outline:0;}
   width: 400px;
   height: 50px;
   z-index: 0;
-  background: transparent;
-  border-color: white;
+  background: #272822;
+  border: none;
   color: white;
   text-align: center;
 }
 
 #create-lobby:hover {
-  background-color: slategray;
+  background-color: black;
+  border-bottom: 3px solid green;
 }
 
 #landingPageGif {
