@@ -20,6 +20,7 @@ const integrateLobby = (WrappedComponent) => {
       this.pageCleanup = this.pageCleanup.bind(this)
       this.onOpen = this.onOpen.bind(this)
       this.onEditorChange = this.onEditorChange.bind(this)
+      this.onClose = this.onClose.bind(this)
     }
     pageCleanup() {
       if (this.state.sendEditorStateOnUnload) {
@@ -37,12 +38,7 @@ const integrateLobby = (WrappedComponent) => {
         this.props.peer.on('call', (call) => {
           call.answer(this.props.stream)
           call.on('stream', (peerStream) => this.setState({ peerStream }))
-          call.on('close', (something) => {
-            this.props.peer.connections = {}
-            this.setState({
-              peerStream: null
-            })
-          })
+          call.on('close', () => { this.onClose(call) })
         })
         this.props.peer.on('connection', (connection) => {
           this.setState({ connection }, () => {
@@ -51,11 +47,24 @@ const integrateLobby = (WrappedComponent) => {
         })
       }
     }
+
+    onClose(call) {
+      this.props.peer.connections = {}
+      this.setState({
+        peerStream: null
+      }, () => { call.answer(this.props.stream) })
+    }
+
     async onOpen() {
       const { peer, stream } = this.props
       const response = await fetch(withHost(lobbyUrl(this.props.lobbyId)), fget())
       const lobby = await response.json()
-      const [peerId, myId] = [lobby.peerId, this.props.userId]
+      const [peerId1, peerId2, myId] = [lobby.peerId1, lobby.peerId2, this.props.userId]
+      console.log("peerId1: ", peerId1)
+      console.log("peerId2: ", peerId2)
+      const peerId = myId === peerId1 ? peerId2 : peerId1
+      console.log("peerId in async onOpen: ", peerId)
+      console.log("myId in async onOpen: ", myId)
       console.log("peer on props: ", peer)
 
       this.setState({ editorValue: lobby.editorState })
@@ -72,6 +81,7 @@ const integrateLobby = (WrappedComponent) => {
           const conn = peer.connect(`${peerId}${lobby.url}`)
           this.setState({ connection: conn }, () => {
             call.on('stream', (peerStream) => this.setState({ peerStream }))
+            call.on('close', () => { this.onClose(call) })
             conn.on('data', (data) => this.setState(data))
           })
           break

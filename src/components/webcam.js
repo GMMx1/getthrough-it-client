@@ -15,7 +15,6 @@ class Webcam extends PureComponent {
 
     return (
       <section className="webcam-section">
-        {console.log('myStream: ', myStream)}
         <div className="parent-webcam">
           <div className="myStream">
             {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
