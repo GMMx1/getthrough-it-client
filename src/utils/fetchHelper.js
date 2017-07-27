@@ -27,6 +27,12 @@ export const fput = (body) => {
   }
 }
 
+export const fdelete = () => {
+  return {
+    ...fget(),
+    method: 'DELETE'
+  }
+}
 
 export const withHost = (url) => `${PROTOCOL}${isProd ? 'api.' : ''}${HOST}${PORT ? `:${PORT}` : ''}/${V}${url}`
 
