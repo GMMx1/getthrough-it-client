@@ -13,6 +13,9 @@ import Challenges from '../components/challenges'
 import Webcam from '../components/Webcam'
 import ChallengeInfo from '../components/ChallengeInfo'
 
+import Confirmation from '../components/confirmBox';
+
+
 class Lobby extends PureComponent {
   constructor(props) {
     super(props)
@@ -23,7 +26,8 @@ class Lobby extends PureComponent {
       challengesVisibility: 'hide',
       activeModal: '',
       passed: true,
-      resetVisiblity: ''
+      resetVisiblity: '',
+      confirm: false
     }
   }
 
@@ -74,10 +78,22 @@ class Lobby extends PureComponent {
   }
 
   onResetClick() {
-    var reset = alert("Are you sure you want to Reset?\nCURRENT PROGRESS FOR THIS CHALLENGE WILL BE ERASED!!!")
-    if (reset) {
-      this.onEditorChange(this.props.currentChallenge.initial_editor)
-    }
+    this.setState({
+      confirm: true
+    }, () => {console.log("this.state in onResetClick: ", this.state)})
+  }
+
+  proceed() {
+    this.props.onEditorChange(this.props.currentChallenge.initial_editor)
+    this.setState({
+      confirm: false
+    })
+  }
+
+  cancel() {
+    this.setState({
+      confirm: false
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -91,10 +107,11 @@ class Lobby extends PureComponent {
             float: 'right',
             marginRight: '40px'}
           this.evalMessage = "You passed: " + this.props.currentChallenge.input_output.length + '/' + this.props.currentChallenge.input_output.length
-          this.props.currentChallenge.complete = true
           this.setState({
             passed: true
           }, this.popupSubmit)
+          this.props.finishChallenge(this.props.currentChallenge.id, 1)
+          this.props.updateLobbyChallenge({challengeId: this.props.currentChallenge.id, complete: true, editorState: this.props.editorValue})
         } else {
           this.evalMessageStyle = {
             color: 'red',
@@ -104,9 +121,8 @@ class Lobby extends PureComponent {
           this.setState({
             passed: false
           }, this.popupSubmit)
-          this.props.currentChallenge.complete = false
+          this.props.updateLobbyChallenge({challengeId: this.props.currentChallenge.id, editorState: this.props.editorValue})
         }
-        this.props.updateLobbyChallenge({challengeId: this.props.currentChallenge.id, complete: this.props.currentChallenge.complete = true, editorState: this.props.editorValue})
       } else {
         this.evalMessage = nextProps.sandboxResult
       }
@@ -140,8 +156,12 @@ class Lobby extends PureComponent {
             <div id="EditorBar" className="centered">
               <button id="ChallengeButton" className="btn" onClick={this.showChallenges}>CHALLENGES</button>
               <button id="RunButton" className="btn" onClick={this.onRunClick}><img id="RunIcon" src="http://www.hey.fr/fun/emoji/android/en/icon/android/40-emoji_android_black_right-pointing_triangle.png" /></button>
-              <button id="ResetButton" className={"btn "+this.state.resetVisiblity} onClick={this.onResetClick}>RESET</button>
+              <button id="ResetButton" className={"btn "+this.state.resetVisiblity} onClick={this.onResetClick.bind(this)}>RESET</button>
             </div>
+            {this.state.confirm &&
+              <Confirmation
+                cancel={this.cancel.bind(this)}
+                proceed={this.proceed.bind(this)}/>}
 
             <div onClick={this.hideChallenges}>
               <Editor

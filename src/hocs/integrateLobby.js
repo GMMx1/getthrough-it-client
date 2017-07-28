@@ -3,8 +3,7 @@ import React, { Component } from 'react'
 import getDisplayName from '../utils/getDisplayName'
 import { fget, fput, withHost } from '../utils/fetchHelper'
 import { NULL_ID, SAME_ID, DIFF_ID, testPeerId } from '../utils/testPeer'
-
-import { lobby as lobbyUrl } from '../routes'
+import { lobby as lobbyUrl , lobbyChallenges } from '../routes'
 
 const integrateLobby = (WrappedComponent) => {
   class IntegrateLobby extends Component {
@@ -14,7 +13,8 @@ const integrateLobby = (WrappedComponent) => {
         peerStream: null,
         connection: null,
         sendEditorStateOnUnload: true,
-        currentChallenge: false
+        currentChallenge: false,
+        challenges: []
       }
 
       this.pageCleanup = this.pageCleanup.bind(this)
@@ -31,7 +31,9 @@ const integrateLobby = (WrappedComponent) => {
     componentDidMount() {
       window.onbeforeunload = this.pageCleanup
       window.onunload = this.pageCleanup
+      this.getChallenges()
     }
+
     componentDidUpdate(prevProps) {
       if (!prevProps.peer && this.props.peer) {
         this.props.peer.on('open', this.onOpen)
@@ -60,11 +62,7 @@ const integrateLobby = (WrappedComponent) => {
       const response = await fetch(withHost(lobbyUrl(this.props.lobbyId)), fget())
       const lobby = await response.json()
       const [peerId1, peerId2, myId] = [lobby.peerId1, lobby.peerId2, this.props.userId]
-      console.log("peerId1: ", peerId1)
-      console.log("peerId2: ", peerId2)
       const peerId = myId === peerId1 ? peerId2 : peerId1
-      console.log("peerId in async onOpen: ", peerId)
-      console.log("myId in async onOpen: ", myId)
       console.log("peer on props: ", peer)
 
       this.setState({ editorValue: lobby.editorState })
@@ -113,6 +111,33 @@ const integrateLobby = (WrappedComponent) => {
         this.state.connection.send({ editorValue: newValue })
       })
     }
+
+    async getChallenges() {
+      const res = await fetch(withHost(lobbyChallenges(this.props.lobbyId)), fget())
+      const challenges = await res.json()
+      console.log('challenges: ', challenges)
+      this.setState({
+        challenges: challenges
+      })
+    }
+
+    finishChallenge(challengeId, pass) {
+      var newChallenge;
+      for (var i = 0; i < this.state.challenges.length; i++) {
+        if (this.state.challenges[i].id === challengeId) {
+          newChallenge = {...this.state.challenges[i], complete: 1}
+          this.setState({
+            challenges: this.state.challenges.slice(0,i).concat(newChallenge).concat(this.state.challenges.slice(i+1))
+          }, () => {
+            this.state.connection &&
+            this.state.connection.send({
+              challenges: this.state.challenges
+            })
+          })
+        }
+      }
+    }
+
     render() {
       return (
         <WrappedComponent
@@ -120,6 +145,7 @@ const integrateLobby = (WrappedComponent) => {
           {...this.state}
           onEditorChange={this.onEditorChange}
           onChallengeChange={this.onChallengeChange.bind(this)}
+          finishChallenge={this.finishChallenge.bind(this)}
         />
       )
     }

@@ -1,25 +1,45 @@
-import React from 'react'
-// import { confirmable } from 'react-confirm';
-
-// const Confirmation = ({show, dismiss, proceed, cancel})
+import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom'
 
 
+class Confirmation extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleClickOutside = this.handleClickOutside.bind(this)
+  }
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside, true);
+  }
 
-//make function for proceed and cancel (Promisify them)
-const Confirmation = ({show, proceed, dismiss, cancel}) => {
-  // for
-  <div class="modal confirmation" onHide={dismiss} show={show}>
-    <button onClick={() => cancel('arguments will be passed to the callback')}>CANCEL</button>
-    <button onClick={() => proceed('same as cancel')}>OK</button>
-  </div>
+  componentWillUnmount() {
+      document.removeEventListener('click', this.handleClickOutside, true);
+  }
+
+  handleClickOutside(event) {
+    const domNode = ReactDOM.findDOMNode(this);
+
+    if ((!domNode || !domNode.contains(event.target))) {
+      this.props.cancel()
+    }
+  }
+
+  render() {
+    return (
+      <div id="Confirmation" >
+        <p style={{padding: "10px 0px 3px"}}>ARE YOU SURE?</p>
+        <p style={{padding: "0px 0px 10px 0px"}}>ALL PROGRESS FOR CURRENT CHALLENGE WILL BE LOST!!!</p>
+        <button style={{bottom: "0", left: "0", position: "absolute"}} onClick={this.props.cancel}>CANCEL</button>
+        <button style={{bottom: "0", right: "0", position: "absolute"}} onClick={this.props.proceed}>OK</button>
+      </div>
+    )
+  }
 }
 
-YourDialog.propTypes = {
-  show: PropTypes.bool,            // from confirmable. indicates if the dialog is shown or not.
-  proceed: PropTypes.func,         // from confirmable. call to close the dialog with promise resolved.
-  cancel: PropTypes.func,          // from confirmable. call to close the dialog with promise rejected.
-  dismiss: PropTypes.func,         // from confirmable. call to only close the dialog.
+Confirmation.propTypes = {
+  show: PropTypes.bool,
+  proceed: PropTypes.func,     // called when ok button is clicked.
+  cancel: PropTypes.func      // called when cancel button is clicked.
 }
 
-export default Confirmation
+export default Confirmation;
