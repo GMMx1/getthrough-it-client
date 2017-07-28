@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import CompletedChallenges from '../../containers/CompletedChallenges'
+import JoinedLobbies from '../../containers/JoinedLobbies'
+import LogoutButton from '../../containers/LogoutButton'
+import { getUserLobbies } from '../../actions/lobbies'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 
@@ -12,6 +14,29 @@ const style = {
 }
 
 class ProfilePage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+    this.getUserLobbies = this.getUserLobbies.bind(this)
+  }
+  componentDidMount() {
+    if (this.props.user) {
+      this.getUserLobbies(this.props.user.id)
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
+      this.getUserLobbies(nextProps.user.id)
+    } 
+  }
+  getUserLobbies(userId) {
+    this.props
+      .getUserLobbies(userId)
+      .then(lobbies => {
+        console.log("PROFILE LOBBIES:", lobbies)
+        this.setState({ lobbies })
+      })
+  }
   render() {
     const isLoading = this.props.isLoading
     const { photo_url, display_name } = this.props.user || {}
@@ -20,14 +45,9 @@ class ProfilePage extends Component {
       <div className="profile-page">
         <Navbar />        
         <div className="container" style={style}>
-          <div className="profile-header">
-            <h3 className="profile-header-title">Completed Challenges</h3>
-          </div>
-          <div className="columns">
-            <div className="column col-12">
-            </div>
-          </div>
-          <CompletedChallenges />
+          <JoinedLobbies
+            lobbies={this.state.lobbies} />
+          <LogoutButton />
         </div>
         <Footer />
       </div>
@@ -40,7 +60,11 @@ const mapStateToProps = (state) => ({
   isLoading: state.auth.isLoading
 })
 
-export default withRouter(connect(mapStateToProps)(ProfilePage))
+const mapDispatchToProps = (dispatch) => ({
+  getUserLobbies: (userId) => dispatch(getUserLobbies(userId))
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePage))
 
 const a = ({photo_url, display_name}) => [
   <div className="column col-4">

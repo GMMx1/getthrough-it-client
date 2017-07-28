@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import getDisplayName from '../utils/getDisplayName'
 import { fget, fput, withHost } from '../utils/fetchHelper'
 import { NULL_ID, SAME_ID, DIFF_ID, testPeerId } from '../utils/testPeer'
 import { lobby as lobbyUrl , lobbyChallenges } from '../routes'
+import { associateUserToLobby } from '../actions/lobbies'
 
 const integrateLobby = (WrappedComponent) => {
   class IntegrateLobby extends Component {
@@ -12,6 +14,7 @@ const integrateLobby = (WrappedComponent) => {
       this.state = {
         peerStream: null,
         connection: null,
+        call: null,
         sendEditorStateOnUnload: true,
         currentChallenge: false,
         challenges: []
@@ -22,25 +25,42 @@ const integrateLobby = (WrappedComponent) => {
       this.onEditorChange = this.onEditorChange.bind(this)
       this.onClose = this.onClose.bind(this)
     }
+
+    componentWillUnmount() {
+      this.state.connection && this.state.connection.close()
+      this.state.call && this.state.call.close()
+      this.props.stream && this.props.stream.getTracks().forEach(x => x.stop())
+      this.props.peer && this.props.peer.disconnect()
+    }
+
     pageCleanup() {
       if (this.state.sendEditorStateOnUnload) {
         fetch(withHost(lobbyUrl(this.props.lobbyId)), fput({ editorState: this.state.editorValue }))
         this.setState({ sendEditorStateOnUnload: false })
       }
     }
+
     componentDidMount() {
       window.onbeforeunload = this.pageCleanup
       window.onunload = this.pageCleanup
       this.getChallenges()
     }
 
+    componentWillUpdate(nextProps) {
+      if (nextProps.user) {
+        this.props.dispatch(associateUserToLobby(nextProps.user.id, nextProps.lobbyId))
+      }
+    }
+
     componentDidUpdate(prevProps) {
       if (!prevProps.peer && this.props.peer) {
         this.props.peer.on('open', this.onOpen)
         this.props.peer.on('call', (call) => {
-          call.answer(this.props.stream)
-          call.on('stream', (peerStream) => this.setState({ peerStream }))
-          call.on('close', () => { this.onClose(call) })
+          this.setState({ call }, () => {
+            call.answer(this.props.stream)
+            call.on('stream', (peerStream) => this.setState({ peerStream }))
+            call.on('close', () => { this.onClose(call) })
+          })
         })
         this.props.peer.on('connection', (connection) => {
           this.setState({ connection }, () => {
@@ -151,7 +171,7 @@ const integrateLobby = (WrappedComponent) => {
     }
   }
   IntegrateLobby.displayName = `IntegrateLobby(${getDisplayName(WrappedComponent)})`
-  return IntegrateLobby
+  return connect()(IntegrateLobby)
 }
 
 export default integrateLobby

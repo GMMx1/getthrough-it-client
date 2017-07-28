@@ -208,4 +208,8 @@ Lobby.propTypes = {
   peerId: PropTypes.string,
 }
 
-export default connect()(withChallenges(withUserMedia(integrateLobby(withSandbox(Lobby)))))
+const mapStateToProps = (state) => ({
+  user: state.auth.user
+})
+
+export default connect(mapStateToProps)(withChallenges(withUserMedia(integrateLobby(withSandbox(Lobby)))))

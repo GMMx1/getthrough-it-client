@@ -15,3 +15,5 @@ export const AUTH_GITHUB = '/auth/github'
 export const LOBBIES = '/lobbies'
 export const lobby = (id) => `/lobbies/${id || ':id'}`
 export const lobbyChallenges = (id) => `${lobby(id)}/challenges`
+
+export const userLobbies = (id) => `/users/${id}/lobbies`
