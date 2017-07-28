@@ -180,6 +180,19 @@ button:focus {outline:0;}
   cursor: pointer;
 }
 
+.pass-fail-icon {
+  width: 80px;
+  height: auto;
+  animation-duration: 0.8s;
+  margin-top: 13px;
+}
+
+#Pass_Fail {
+  background-color: white;
+  width: 230px;
+  height: auto;
+}
+
 #CompleteIcon {
   margin-top: 4px;
   margin-right: -7px
@@ -421,7 +434,7 @@ table {
 }
 
 .completed-challenges-table-body * {
-  background-color: green; 
+  background-color: green;
 }
 
 .completed-challenges-table-link {
