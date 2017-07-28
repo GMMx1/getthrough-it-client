@@ -190,6 +190,15 @@ code {
   margin-top: 13px;
 }
 
+#LoadingGif {
+  top: 40%;
+  left: 35%;
+  display: block;
+  position: absolute;
+  height: 100px;
+  width: auto;
+}
+
 #Pass_Fail {
   background-color: white;
   width: 230px;

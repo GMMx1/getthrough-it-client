@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 
 import Video from '../components/Video'
-
+import Loading from '../components/M_loading.gif'
 
 class Webcam extends PureComponent {
   renderLoading() {
@@ -21,7 +21,12 @@ class Webcam extends PureComponent {
             {myStream && <Video streamId={myStream.id} src={URL.createObjectURL(myStream)} muted={true}/>}
           </div>
           <div className="video-responsive video-responsive-4-3 waiting">
-            {peerStream ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/> : <span>Waiting for Peer.</span>}
+            {peerStream
+              ? <Video streamId={peerStream.id} src={URL.createObjectURL(peerStream)} muted={false}/>
+              : <div className="text-center">
+                  Waiting for Peer
+                  <img id="LoadingGif" src={Loading} />
+                </div>}
           </div>
         </div>
       </section>
