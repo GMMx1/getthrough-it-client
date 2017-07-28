@@ -12,6 +12,7 @@ import TestTable from '../components/TestTable'
 import Challenges from '../components/challenges'
 import Webcam from '../components/Webcam'
 import ChallengeInfo from '../components/ChallengeInfo'
+import RunIcon from '../components/run_icon.png'
 
 import Confirmation from '../components/confirmBox';
 
@@ -83,7 +84,7 @@ class Lobby extends PureComponent {
   proceed() {
     this.props.onEditorChange(this.props.currentChallenge.initial_editor)
     this.setState({
-      confirm: false
+      confirm: false,
     })
   }
 
@@ -152,7 +153,7 @@ class Lobby extends PureComponent {
 
             <div id="EditorBar" className="centered">
               <button id="ChallengeButton" className="btn" onClick={this.showChallenges}>CHALLENGES</button>
-              <button id="RunButton" className="btn" onClick={this.onRunClick}><img id="RunIcon" src="http://www.hey.fr/fun/emoji/android/en/icon/android/40-emoji_android_black_right-pointing_triangle.png" /></button>
+              <button id="RunButton" className="btn" onClick={this.onRunClick}><img id="RunIcon" src={RunIcon} /></button>
               <button id="ResetButton" className={"btn "+this.state.resetVisiblity} onClick={this.onResetClick.bind(this)}>RESET</button>
             </div>
             {this.state.confirm &&

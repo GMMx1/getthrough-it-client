@@ -177,8 +177,12 @@ button:focus {outline:0;}
 .confirm-button:hover {
   background-color: black;
   color: white;
-  border-bottom: 1px solid green;
   cursor: pointer;
+}
+
+#CompleteIcon {
+  margin-top: 4px;
+  margin-right: -7px
 }
 
 #RunIcon {

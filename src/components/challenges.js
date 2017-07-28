@@ -15,8 +15,7 @@ class Challenges extends PureComponent {
         <tbody className="text-centered lobby-table">
           {this.props.challenges.map((item, idx) => (
             <tr key={idx} >
-              <td className="challenge-name" onClick={ () => { this.props.onChallengeClick(item) } }>{item.name}</td>
-              {item.complete === 1 && <td><i className="icon icon-check"></i></td>}
+              <td className="challenge-name" onClick={ () => { this.props.onChallengeClick(item) } }>{item.name}  {item.complete === 1 && <i id="CompleteIcon" className="icon icon-check float-right"></i>}</td>
             </tr>
           ))}
         </tbody>
