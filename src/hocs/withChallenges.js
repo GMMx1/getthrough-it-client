@@ -10,23 +10,7 @@ const withChallenges = (WrappedComponent) => {
   class WithChallenges extends Component {
     constructor(props) {
       super(props)
-      this.state = {
-        challenges: []
-      }
-    }
-
-    componentDidMount() {
-      this.getChallenges()
-      console.log('this.props in withChallenges: ', this.props)
-    }
-
-    async getChallenges() {
-      const res = await fetch(withHost(lobbyChallenges(this.props.lobbyId)), fget())
-      const challenges = await res.json()
-      console.log('challenges: ', challenges)
-      this.setState({
-        challenges: challenges
-      })
+      this.state = {}
     }
 
     updateLobbyChallenge(body) {
@@ -37,17 +21,6 @@ const withChallenges = (WrappedComponent) => {
       fetch(withHost(lobbyChallenges(this.props.lobbyId)), fpost(body))
     }
 
-    passChallenge(challengeId) {
-      var newChallenge;
-      for (var i = 0; i < this.state.challenges.length; i++) {
-        if (this.state.challenges[i].id === challengeId) {
-          newChallenge = {...this.state.challenges[i], complete: 1}
-          this.setState({
-            challenges: this.state.challenges.slice(0,i).concat(newChallenge).concat(this.state.challenges.slice(i+1))
-          })
-        }
-      }
-    }
 
     render() {
       return (
@@ -57,7 +30,6 @@ const withChallenges = (WrappedComponent) => {
           updateLobbyChallenge={this.updateLobbyChallenge.bind(this)}
           createNewLobbyChallenge={this.createNewLobbyChallenge.bind(this)}
           getChallenges={this.getChallenges}
-          passChallenge={this.passChallenge.bind(this)}
         />
       )
     }
