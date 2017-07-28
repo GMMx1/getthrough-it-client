@@ -13,6 +13,9 @@ import Challenges from '../components/challenges'
 import Webcam from '../components/Webcam'
 import ChallengeInfo from '../components/ChallengeInfo'
 import RunIcon from '../components/run_icon.png'
+import Checkmark from '../components/checkmark_icon.png'
+import Redcross from '../components/redcross_icon.png'
+
 
 import Confirmation from '../components/confirmBox';
 
@@ -175,17 +178,16 @@ class Lobby extends PureComponent {
             onChallengeClick={this.onChallengeClick.bind(this)}
           />
         </section>
-        <div className={"modal "+this.state.activeModal} style={this.state.passed ? {color: "green"} : {color: "red"}}>
+        <div className={"modal " + this.state.activeModal} style={this.state.passed ? {color: "green"} : {color: "red"}}>
           <div className="modal-overlay"></div>
-          <div className="modal-container">
-            <div className="modal-header">
-              <div  className="modal-title">{this.state.passed ? "Success!" : "Tests Failed"}</div>
-            </div>
+          <div id="Pass_Fail" className="modal-container">
             <div className="modal-body">
-              <div className="modal-content">
-                {this.state.passed ?
-                  <i className="icon icon-check"></i>
-                  : <i className="icon icon-cross"></i>
+              <div className="modal-content text-center">
+                {this.state.passed ? "Challenge completed!" : "Tests Failed"}
+                {this.state.passed
+                  ? <img className="pass-fail-icon animated fadeIn centered" src={Checkmark} />
+                  : <img className="pass-fail-icon animated fadeIn centered" src={Redcross} />
+
                 }
               </div>
             </div>
