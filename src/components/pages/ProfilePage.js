@@ -9,8 +9,7 @@ import Navbar from '../Navbar'
 import Footer from '../Footer'
 
 const style = {
-  maxWidth: '800px',
-  height: window.innerHeight - 40
+  maxWidth: '800px'
 }
 
 class ProfilePage extends Component {
@@ -30,22 +29,25 @@ class ProfilePage extends Component {
     } 
   }
   getUserLobbies(userId) {
-    this.props
-      .getUserLobbies(userId)
-      .then(lobbies => {
-        console.log("PROFILE LOBBIES:", lobbies)
-        this.setState({ lobbies })
-      })
+    this.setState({ isLoading: true })
+    setTimeout(() => {
+      this.props
+        .getUserLobbies(userId)
+        .then(lobbies => {
+          this.setState({ lobbies, isLoading: false })
+        })
+    }, 1000)
   }
   render() {
-    const isLoading = this.props.isLoading
+    const isLoading = this.props.isLoading || this.state.isLoading
     const { photo_url, display_name } = this.props.user || {}
     
-    return isLoading ? <span>Loading...</span> : (
+    return (
       <div className="profile-page">
         <Navbar />        
         <div className="container" style={style}>
           <JoinedLobbies
+            isLoading={isLoading}
             lobbies={this.state.lobbies} />
           <LogoutButton />
         </div>

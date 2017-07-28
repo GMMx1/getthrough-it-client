@@ -7,7 +7,11 @@ import { lobby as lobbyUrl } from '../routes'
 
 class JoinedLobbies extends PureComponent {
   render() {
-    return (this.props.lobbies.length ? (
+    return this.props.isLoading ? (
+      <div className="profile-header">
+        <h3 className="profile-header-title">Loading...</h3>
+      </div>
+    ) : (this.props.lobbies.length ? (
       <div>
         <div className="profile-header">
           <h3 className="profile-header-title">Lobbies Joined</h3>

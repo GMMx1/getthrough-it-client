@@ -11,7 +11,7 @@ const LandingPage = (props) => {
       <div id="landingPageGif" />
       <div id="landingPage_description" className="text-center">
         <h2 className=" text-bold">GET_THROUGH_IT</h2>
-        <p>The modern online collaborative text editor</p>
+        <p>A modern online collaborative text editor.</p>
       </div>
       <CreateLobby
         history={props.history} />
