@@ -27,8 +27,8 @@ const integrateLobby = (WrappedComponent) => {
     }
 
     componentWillUnmount() {
-      this.state.connection && this.state.connection.close()
-      this.state.call && this.state.call.close()
+      // this.state.connection && this.state.connection.close()
+      // this.state.call && this.state.call.close()
       this.props.stream && this.props.stream.getTracks().forEach(x => x.stop())
       this.props.peer && this.props.peer.disconnect()
     }
