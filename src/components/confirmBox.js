@@ -26,11 +26,17 @@ class Confirmation extends React.Component {
 
   render() {
     return (
-      <div id="Confirmation" >
-        <p style={{padding: "10px 0px 3px"}}>ARE YOU SURE?</p>
-        <p style={{padding: "0px 0px 10px 0px"}}>ALL PROGRESS FOR CURRENT CHALLENGE WILL BE LOST!!!</p>
-        <button style={{bottom: "0", left: "0", position: "absolute"}} onClick={this.props.cancel}>CANCEL</button>
-        <button style={{bottom: "0", right: "0", position: "absolute"}} onClick={this.props.proceed}>OK</button>
+      <div id="ConfirmBox" className="modal active">
+        <div className="modal-overlay"></div>
+        <div className="modal-container">
+          <div className="modal-body">
+            <div className="content">
+              <p>Are you sure?<br /> All progress will be discarded!</p>
+              <button className="confirm-button text-centered" onClick={this.props.proceed}>Okay</button>
+              <button className="confirm-button text-centered" onClick={this.props.cancel}>Cancel</button>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
