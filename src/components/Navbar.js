@@ -10,9 +10,9 @@ class Navbar extends Component {
   render() {
     return (
       <header className="navbar nav-default">
-      <section className="navbar-section">
+      <Link to={HOME} className="navbar-section App-logo">
         <img className="navbar-brand" src={Logo} />
-      </section>
+      </Link>
       <UserNavLink />
       </header>
     )

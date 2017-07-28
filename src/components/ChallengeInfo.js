@@ -41,7 +41,7 @@ class ChallengeInfo extends Component {
           ? <div id="ChallengeInstruction">
               <h4>{this.props.currentChallenge.name}</h4>
               <hr />
-              {this.props.currentChallenge.question}
+              <span dangerouslySetInnerHTML={{ __html: this.props.currentChallenge.question }} />
             </div>
 
           : <div className="test-suite">
