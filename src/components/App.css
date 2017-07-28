@@ -12,6 +12,9 @@ hr {
 
 button:focus {outline:0;}
 
+code {
+  background-color: #272822;
+}
 
 .navbar-brand {
   color: green;
