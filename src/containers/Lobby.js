@@ -86,7 +86,7 @@ class Lobby extends PureComponent {
   proceed() {
     this.props.onEditorChange(this.props.currentChallenge.initial_editor)
     this.setState({
-      confirm: false
+      confirm: false,
     })
   }
 
