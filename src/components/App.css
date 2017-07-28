@@ -171,7 +171,9 @@ button:focus {outline:0;}
 
 #ChallengeInstruction {
   padding: 5px 10px 5px 10px;
+  max-height: 40vh;
   overflow: scroll;
+  margin-top: 5px;
 }
 
 #landingPage {
