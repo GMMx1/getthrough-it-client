@@ -27,16 +27,14 @@ const withSandbox = (WrappedComponent) => {
     }
 
     componentDidMount() {
-      console.log(this.props)
       window.addEventListener('message', this.sandboxResultListener)
     }
 
     componentWillUnmount() {
-      window.removeEventListener("message", this.sandboxResultListener);
+      window.removeEventListener('message', this.sandboxResultListener)
     }
 
     sandboxResultListener(e) {
-      console.log('e in sandboxResultListener: ', e)
       if (e.origin === 'null' && e.source === this.frame.contentWindow)
         this.setState({ sandboxResult: e.data })
     }
@@ -51,11 +49,6 @@ const withSandbox = (WrappedComponent) => {
     render() {
       return (
         <div>
-          <WrappedComponent
-            sandboxEval={this.sandboxEval}
-            sandboxResult={this.state.sandboxResult}
-            {...this.props}
-          />
           <iframe
             title="sandbox"
             ref={(frame) => { this.frame = frame }}
@@ -64,6 +57,11 @@ const withSandbox = (WrappedComponent) => {
             style={style}
           >
           </iframe>
+          <WrappedComponent
+            sandboxEval={this.sandboxEval}
+            sandboxResult={this.state.sandboxResult}
+            {...this.props}
+          />
         </div>
       )
     }

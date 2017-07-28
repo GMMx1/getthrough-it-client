@@ -1,3 +1,7 @@
+a:hover {
+  text-decoration: none
+}
+
 th, td {
   padding: 1rem;
 }
@@ -382,4 +386,40 @@ table {
   left: 40%;
   z-index: 500;
   border: 1px solid #A9A9A9;
+}
+
+.profile-page {
+  background-color: #2f3129;
+}
+
+.profile-header {
+  margin-top: 3em;
+}
+
+.profile-header-title {
+  color: #fff;
+  font-weight: 400;
+}
+
+.completed-challenges-table {
+  width: 100%;
+  color: #ccc;
+  text-align: left;
+}
+
+.completed-challenges-table-header {
+  color: white;
+  font-size: 1.3em;
+}
+
+.completed-challenges-table-body {
+  background-color: transparent;
+}
+
+.completed-challenges-table-body * {
+  background-color: green; 
+}
+
+.completed-challenges-table-link {
+
 }

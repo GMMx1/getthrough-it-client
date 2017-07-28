@@ -56,10 +56,8 @@ class Lobby extends PureComponent {
     this.props.onChallengeChange(item)
   }
 
-
-
-
   onEditorChange(newValue) {
+
     this.setState({ editorValue: newValue }, () => {
       this.state.connection &&
       this.state.connection.send({ editorValue: newValue })
@@ -71,7 +69,6 @@ class Lobby extends PureComponent {
       activeModal: "active"
     }, () => {setTimeout(() => {this.setState({activeModal: ""})}, 1500)})
   }
-
 
   onRunClick(e) {
     this.props.sandboxEval(this.props.editorValue)
