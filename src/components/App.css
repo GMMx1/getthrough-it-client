@@ -272,7 +272,7 @@ button:focus {outline:0;}
   margin-top: 10px;
 }
 
-#ChallengePanel tr:hover {
+#ChallengePanel .challenge-name:hover {
   background-color: black;
   cursor: pointer;
 }

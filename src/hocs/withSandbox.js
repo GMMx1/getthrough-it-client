@@ -13,6 +13,7 @@ const withSandbox = (WrappedComponent) => {
       super(props)
       this.state = {}
       this.sandboxEval = this.sandboxEval.bind(this)
+      this.sandboxResultListener = this.sandboxResultListener.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -27,7 +28,11 @@ const withSandbox = (WrappedComponent) => {
 
     componentDidMount() {
       console.log(this.props)
-      window.addEventListener('message', this.sandboxResultListener.bind(this))
+      window.addEventListener('message', this.sandboxResultListener)
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener("message", this.sandboxResultListener);
     }
 
     sandboxResultListener(e) {

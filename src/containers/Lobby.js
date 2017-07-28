@@ -91,10 +91,11 @@ class Lobby extends PureComponent {
             float: 'right',
             marginRight: '40px'}
           this.evalMessage = "You passed: " + this.props.currentChallenge.input_output.length + '/' + this.props.currentChallenge.input_output.length
-          this.props.currentChallenge.complete = true
           this.setState({
             passed: true
           }, this.popupSubmit)
+          this.props.passChallenge(this.props.currentChallenge.id)
+          this.props.updateLobbyChallenge({challengeId: this.props.currentChallenge.id, complete: true, editorState: this.props.editorValue})
         } else {
           this.evalMessageStyle = {
             color: 'red',
@@ -104,9 +105,8 @@ class Lobby extends PureComponent {
           this.setState({
             passed: false
           }, this.popupSubmit)
-          this.props.currentChallenge.complete = false
+          this.props.updateLobbyChallenge({challengeId: this.props.currentChallenge.id, complete: false, editorState: this.props.editorValue})
         }
-        this.props.updateLobbyChallenge({challengeId: this.props.currentChallenge.id, complete: this.props.currentChallenge.complete = true, editorState: this.props.editorValue})
       } else {
         this.evalMessage = nextProps.sandboxResult
       }
